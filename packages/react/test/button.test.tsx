@@ -4,7 +4,11 @@ import { Button } from '../src';
 
 describe('Button', () => {
   it('renders label and applies variant/size classes', () => {
-    render(<Button variant="secondary" size="lg">Save</Button>);
+    render(
+      <Button variant="secondary" size="lg">
+        Save
+      </Button>,
+    );
     const btn = screen.getByRole('button', { name: 'Save' });
     expect(btn).toHaveClass('pm-btn', 'pm-btn--secondary', 'pm-btn--lg');
   });
@@ -18,7 +22,11 @@ describe('Button', () => {
 
   it('loading disables the button and shows a spinner', () => {
     const onClick = vi.fn();
-    render(<Button loading onClick={onClick}>Deploy</Button>);
+    render(
+      <Button loading onClick={onClick}>
+        Deploy
+      </Button>,
+    );
     const btn = screen.getByRole('button');
     expect(btn).toBeDisabled();
     expect(btn).toHaveAttribute('aria-busy', 'true');
@@ -28,7 +36,11 @@ describe('Button', () => {
   });
 
   it('renders icons', () => {
-    render(<Button leftIcon="terminal" rightIcon="arrow-right">Open</Button>);
+    render(
+      <Button leftIcon="terminal" rightIcon="arrow-right">
+        Open
+      </Button>,
+    );
     const btn = screen.getByRole('button', { name: 'Open' });
     expect(btn.querySelectorAll('svg')).toHaveLength(2);
   });

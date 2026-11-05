@@ -6,8 +6,17 @@ import { useTheme } from '../theme/ThemeProvider';
 import { textStyle, toneColor } from '../theme/helpers';
 
 export type TextTone =
-  | 'default' | 'muted' | 'subtle' | 'disabled' | 'inverse'
-  | 'accent' | 'link' | 'success' | 'info' | 'warning' | 'danger';
+  | 'default'
+  | 'muted'
+  | 'subtle'
+  | 'disabled'
+  | 'inverse'
+  | 'accent'
+  | 'link'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger';
 
 export interface TextProps extends RNTextProps {
   variant?: TextVariant;
@@ -15,7 +24,10 @@ export interface TextProps extends RNTextProps {
 }
 
 /** Same API as @pixelmist/react <Text>: variant = type-scale token, tone = semantic color. */
-export const Text = forwardRef<RNText, TextProps>(function Text({ variant = 'body-md', tone = 'default', style, ...rest }, ref) {
+export const Text = forwardRef<RNText, TextProps>(function Text(
+  { variant = 'body-md', tone = 'default', style, ...rest },
+  ref,
+) {
   const { resolved: t } = useTheme();
   return <RNText ref={ref} style={[textStyle(t, variant), { color: toneColor(t, tone) }, style]} {...rest} />;
 });

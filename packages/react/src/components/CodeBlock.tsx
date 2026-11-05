@@ -20,7 +20,9 @@ export function CodeBlock({ title, code, children, actions, className, ...rest }
           {actions ? <span className="pm-codeblock__actions">{actions}</span> : null}
         </div>
       ) : null}
-      <pre className="pm-codeblock__pre"><code>{code ?? children}</code></pre>
+      <pre className="pm-codeblock__pre">
+        <code>{code ?? children}</code>
+      </pre>
     </div>
   );
 }

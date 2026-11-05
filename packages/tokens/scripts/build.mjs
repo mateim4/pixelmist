@@ -13,7 +13,11 @@ mkdirSync(dist, { recursive: true });
 
 const isRef = (v) => typeof v === 'string' && /^\{.+\}$/.test(v);
 const refPath = (v) => v.replace(/^\{|\}$/g, '').replace(/\.DEFAULT(?=\.|$)/g, '');
-const cssVar = (p) => `--pm-${p.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase().replace(/\./g, '-')}`;
+const cssVar = (p) =>
+  `--pm-${p
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .toLowerCase()
+    .replace(/\./g, '-')}`;
 
 /** number -> css unit, path-aware */
 function cssVal(path, v) {
@@ -32,7 +36,16 @@ function cssRef(path, v, flatPrimitives) {
   return null;
 }
 
-const flatPrim = T.flatten({ ...T.palette, font: T.fonts, text: T.textScale, space: T.spacing, radius: T.radius, elevation: T.elevation, motion: T.motion, layout: T.layout });
+const flatPrim = T.flatten({
+  ...T.palette,
+  font: T.fonts,
+  text: T.textScale,
+  space: T.spacing,
+  radius: T.radius,
+  elevation: T.elevation,
+  motion: T.motion,
+  layout: T.layout,
+});
 
 const lines = [];
 lines.push('/* @pixelmist/tokens — generated. Do not edit. Source: packages/tokens/src */');
@@ -48,7 +61,9 @@ for (const [name, style] of Object.entries(T.textScale)) {
   lines.push(`  ${cssVar(`${base}.fontFamily`)}: var(${cssVar(refPath(style.fontFamily))});`);
   if (style.responsive) {
     const vw = ((style.responsive.max / 1280) * 100).toFixed(3);
-    lines.push(`  ${cssVar(`${base}.fontSize`)}: clamp(${style.responsive.min}px, ${vw}vw, ${style.responsive.max}px);`);
+    lines.push(
+      `  ${cssVar(`${base}.fontSize`)}: clamp(${style.responsive.min}px, ${vw}vw, ${style.responsive.max}px);`,
+    );
   } else {
     lines.push(`  ${cssVar(`${base}.fontSize`)}: ${style.fontSize}px;`);
   }
@@ -82,7 +97,8 @@ for (const [p, v] of Object.entries(T.flatten({ components: T.componentTokens })
     const leaves = Object.keys(flatPrim).filter((k) => k.startsWith(rp + '.'));
     if (leaves.length) {
       // group ref (e.g. {text.button-md}) — expand per leaf as var aliases
-      for (const lp of leaves) lines.push(`  ${cssVar(`comp.${bare}.${lp.slice(rp.length + 1)}`)}: var(${cssVar(lp)});`);
+      for (const lp of leaves)
+        lines.push(`  ${cssVar(`comp.${bare}.${lp.slice(rp.length + 1)}`)}: var(${cssVar(lp)});`);
     } else {
       // leaf ref — primitives live in :root, semantic colors are per-theme vars; both use the same naming
       lines.push(`  ${cssVar(`comp.${bare}`)}: var(${cssVar(rp)});`);
@@ -106,9 +122,20 @@ writeFileSync(join(dist, 'tokens.css'), lines.join('\n') + '\n');
 // tokens.json — fully resolved per theme (React Native consumes resolveTheme() at runtime;
 // this file is for tooling / inspection / codegen)
 const json = {
-  $meta: { name: '@pixelmist/tokens', generatedAt: new Date().toISOString(), themes: T.themeNames, defaultTheme: T.defaultTheme },
-  palette: T.palette, fonts: T.fonts, textScale: T.textScale, spacing: T.spacing, radius: T.radius,
-  elevation: T.elevation, motion: T.motion, layout: T.layout,
+  $meta: {
+    name: '@pixelmist/tokens',
+    generatedAt: new Date().toISOString(),
+    themes: T.themeNames,
+    defaultTheme: T.defaultTheme,
+  },
+  palette: T.palette,
+  fonts: T.fonts,
+  textScale: T.textScale,
+  spacing: T.spacing,
+  radius: T.radius,
+  elevation: T.elevation,
+  motion: T.motion,
+  layout: T.layout,
   themes: Object.fromEntries(T.themeNames.map((n) => [n, T.resolveTheme(n)])),
 };
 writeFileSync(join(dist, 'tokens.json'), JSON.stringify(json, null, 2));

@@ -27,7 +27,27 @@ export interface BoxProps extends ViewProps {
 }
 
 export const Box = forwardRef<View, BoxProps>(function Box(
-  { display, direction, gap, padding, paddingX, paddingY, margin, marginX, marginY, align, justify, wrap, flex, width, maxWidth, radius, bg, style, ...rest },
+  {
+    display,
+    direction,
+    gap,
+    padding,
+    paddingX,
+    paddingY,
+    margin,
+    marginX,
+    marginY,
+    align,
+    justify,
+    wrap,
+    flex,
+    width,
+    maxWidth,
+    radius,
+    bg,
+    style,
+    ...rest
+  },
   ref,
 ) {
   const { resolved: t } = useTheme();
@@ -55,6 +75,9 @@ export const Box = forwardRef<View, BoxProps>(function Box(
 
 export interface StackProps extends BoxProps {}
 
-export const Stack = forwardRef<View, StackProps>(function Stack({ direction = 'column', display = 'flex', ...rest }, ref) {
+export const Stack = forwardRef<View, StackProps>(function Stack(
+  { direction = 'column', display = 'flex', ...rest },
+  ref,
+) {
   return <Box ref={ref} display={display} direction={direction} {...rest} />;
 });

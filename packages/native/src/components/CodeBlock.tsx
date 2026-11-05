@@ -28,12 +28,23 @@ export function CodeBlock({ title, code, children, style, ...rest }: CodeBlockPr
       {...rest}
     >
       {title ? (
-        <View style={{ paddingVertical: space(t, 'xs'), paddingHorizontal: space(t, 'md'), borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.08)' }}>
-          <Text variant="caption" style={{ color: 'rgba(255,255,255,0.55)' }}>{title}</Text>
+        <View
+          style={{
+            paddingVertical: space(t, 'xs'),
+            paddingHorizontal: space(t, 'md'),
+            borderBottomWidth: 1,
+            borderBottomColor: 'rgba(255,255,255,0.08)',
+          }}
+        >
+          <Text variant="caption" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            {title}
+          </Text>
         </View>
       ) : null}
       <View style={{ padding: space(t, 'md') }}>
-        <Text variant="code-md" style={{ color: '#f2f1ec' }}>{code ?? children}</Text>
+        <Text variant="code-md" style={{ color: '#f2f1ec' }}>
+          {code ?? children}
+        </Text>
       </View>
     </View>
   );

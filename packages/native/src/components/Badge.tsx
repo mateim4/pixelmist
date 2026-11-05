@@ -25,16 +25,21 @@ export function Badge({ variant = 'accent', tone = 'neutral', style, children, .
   return (
     <View
       style={{
-        flexDirection: 'row', alignItems: 'center',
-        backgroundColor: bg, borderRadius: Number(v.radius),
-        paddingVertical: Number(v.padY), paddingHorizontal: Number(v.padX),
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: bg,
+        borderRadius: Number(v.radius),
+        paddingVertical: Number(v.padY),
+        paddingHorizontal: Number(v.padX),
         borderWidth: variant === 'outline' || variant === 'cream' ? 1 : 0,
         borderColor: (v.border as string) ?? 'transparent',
         alignSelf: 'flex-start',
       }}
       {...rest}
     >
-      <Text variant="caption-bold" style={{ color: fg }}>{children}</Text>
+      <Text variant="caption-bold" style={{ color: fg }}>
+        {children}
+      </Text>
     </View>
   );
 }

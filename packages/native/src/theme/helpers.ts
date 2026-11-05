@@ -25,16 +25,27 @@ export const textStyle = (t: ResolvedTheme, variant: string): TextStyle => {
 export const toneColor = (t: ResolvedTheme, tone: string): string => {
   const c = t.color;
   switch (tone) {
-    case 'muted': return c.fg.muted;
-    case 'subtle': return c.fg.subtle;
-    case 'disabled': return c.fg.disabled;
-    case 'inverse': return c.fg.inverse;
-    case 'accent': return c.accent.primary;
-    case 'link': return c.fg.link;
-    case 'success': return c.status.success;
-    case 'info': return c.status.info;
-    case 'warning': return c.status.warning;
-    case 'danger': return c.status.danger;
-    default: return c.fg.default;
+    case 'muted':
+      return c.fg.muted;
+    case 'subtle':
+      return c.fg.subtle;
+    case 'disabled':
+      return c.fg.disabled;
+    case 'inverse':
+      return c.fg.inverse;
+    case 'accent':
+      return c.accent.primary;
+    case 'link':
+      return c.fg.link;
+    case 'success':
+      return c.status.success;
+    case 'info':
+      return c.status.info;
+    case 'warning':
+      return c.status.warning;
+    case 'danger':
+      return c.status.danger;
+    default:
+      return c.fg.default;
   }
 };

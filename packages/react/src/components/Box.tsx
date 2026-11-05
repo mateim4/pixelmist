@@ -32,8 +32,28 @@ export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
 /** Layout primitive. Spacing props accept a token name ("xl") or a px number. */
 export const Box = forwardRef(function Box(
   {
-    as, display, direction, gap, padding, paddingX, paddingY, margin, marginX, marginY,
-    align, justify, wrap, flex, width, maxWidth, radius, bg, color, className, style, ...rest
+    as,
+    display,
+    direction,
+    gap,
+    padding,
+    paddingX,
+    paddingY,
+    margin,
+    marginX,
+    marginY,
+    align,
+    justify,
+    wrap,
+    flex,
+    width,
+    maxWidth,
+    radius,
+    bg,
+    color,
+    className,
+    style,
+    ...rest
   }: BoxProps,
   ref: Ref<HTMLDivElement>,
 ) {

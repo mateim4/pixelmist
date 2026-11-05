@@ -1,12 +1,28 @@
 /** Tier 1 — spacing, radius, elevation, motion, layout. */
 
 export const spacing = {
-  xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 32, xxxl: 40,
-  'section-sm': 48, section: 64, 'section-lg': 96, hero: 120,
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 20,
+  xl: 24,
+  xxl: 32,
+  xxxl: 40,
+  'section-sm': 48,
+  section: 64,
+  'section-lg': 96,
+  hero: 120,
 } as const;
 
 export const radius = {
-  xs: 4, sm: 6, md: 8, lg: 12, xl: 16, xxl: 20, full: 9999,
+  xs: 4,
+  sm: 6,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  xxl: 20,
+  full: 9999,
 } as const;
 
 export const elevation = {
@@ -23,11 +39,12 @@ export const elevation = {
 } as const;
 
 export const motion = {
-  duration: { fast: 120, normal: 200, slow: 320 },
+  duration: { instant: 80, fast: 120, normal: 200, slow: 320 },
   easing: {
     standard: 'cubic-bezier(0.2, 0, 0, 1)',
     emphasized: 'cubic-bezier(0.32, 0.72, 0, 1)',
     entrance: 'cubic-bezier(0, 0, 0.2, 1)',
+    spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   },
 } as const;
 

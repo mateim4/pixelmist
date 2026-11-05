@@ -1,13 +1,31 @@
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import {
-  Badge, Box, Button, Card, CodeBlock, IconTile, Stack, SunsetStripe, Switch, Tabs, Text, TextField, ThemeProvider, useTheme,
+  Badge,
+  Box,
+  Button,
+  Card,
+  CodeBlock,
+  IconTile,
+  Stack,
+  SunsetStripe,
+  Switch,
+  Tabs,
+  Text,
+  TextField,
+  ThemeProvider,
+  useTheme,
 } from '@pixelmist/native';
 
 function Header() {
   const { theme, toggleTheme } = useTheme();
   return (
-    <Box direction="row" align="center" justify="space-between" paddingX="xxl" paddingY="md"
+    <Box
+      direction="row"
+      align="center"
+      justify="space-between"
+      paddingX="xxl"
+      paddingY="md"
       style={{ borderBottomWidth: 1, borderBottomColor: undefined }}
     >
       <Box direction="row" align="center" gap="sm">
@@ -36,24 +54,36 @@ export default function App() {
               Same tokens, same components as web — rendered natively via @pixelmist/native.
             </Text>
             <Box direction="row" gap="md" wrap="wrap">
-              <Button variant="primary" rightIcon="arrow-right">Start building</Button>
+              <Button variant="primary" rightIcon="arrow-right">
+                Start building
+              </Button>
               <Button variant="secondary">Spec</Button>
             </Box>
 
-            <Text variant="micro-uppercase" tone="accent">02 — Actions</Text>
+            <Text variant="micro-uppercase" tone="accent">
+              02 — Actions
+            </Text>
             <Box direction="row" gap="md" wrap="wrap">
               <Button variant="primary">Primary</Button>
               <Button variant="dark">Dark</Button>
               <Button variant="cream">Cream</Button>
               <Button variant="link">Link</Button>
-              <Button variant="primary" loading>Running</Button>
+              <Button variant="primary" loading>
+                Running
+              </Button>
             </Box>
 
-            <Text variant="micro-uppercase" tone="accent">03 — Status</Text>
+            <Text variant="micro-uppercase" tone="accent">
+              03 — Status
+            </Text>
             <Box direction="row" gap="sm" wrap="wrap">
               <Badge variant="accent">New</Badge>
-              <Badge variant="outline" tone="success">Passing</Badge>
-              <Badge variant="outline" tone="danger">Failed</Badge>
+              <Badge variant="outline" tone="success">
+                Passing
+              </Badge>
+              <Badge variant="outline" tone="danger">
+                Failed
+              </Badge>
             </Box>
             <Box direction="row" align="center" gap="md">
               <Switch label="Notifications" checked={notifications} onCheckedChange={setNotifications} />
@@ -67,12 +97,16 @@ export default function App() {
               </Tabs.List>
             </Tabs>
 
-            <Text variant="micro-uppercase" tone="accent">04 — Surfaces</Text>
+            <Text variant="micro-uppercase" tone="accent">
+              04 — Surfaces
+            </Text>
             <Card variant="feature">
               <Stack gap="sm">
                 <IconTile icon="sparkle" label="Agents" />
                 <Text variant="heading-5">Feature card</Text>
-                <Text variant="body-sm" tone="muted">Native card from the same component tokens.</Text>
+                <Text variant="body-sm" tone="muted">
+                  Native card from the same component tokens.
+                </Text>
               </Stack>
             </Card>
             <CodeBlock title="agent — bash" code={'$ vibe run "ship it"\n✓ done in 4.2s'} />

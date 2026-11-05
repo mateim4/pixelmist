@@ -6,10 +6,17 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "require": "./dist/index.cjs" },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
     "./styles.css": "./dist/styles.css"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --external react,react-dom && cp src/styles.css dist/styles.css",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -38,5 +45,11 @@
     "tsup": "^8.3.5",
     "typescript": "~5.6.3",
     "vitest": "^2.1.8"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "publishConfig": {
+    "access": "restricted"
   }
 }

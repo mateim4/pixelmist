@@ -20,8 +20,17 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 /** Mistral-style action button: radius md (8px), 10px/20px padding, 44px min height. */
 export const Button = forwardRef(function Button(
   {
-    variant = 'primary', size = 'md', loading = false, fullWidth = false,
-    leftIcon, rightIcon, className, disabled, children, type = 'button', ...rest
+    variant = 'primary',
+    size = 'md',
+    loading = false,
+    fullWidth = false,
+    leftIcon,
+    rightIcon,
+    className,
+    disabled,
+    children,
+    type = 'button',
+    ...rest
   }: ButtonProps,
   ref: Ref<HTMLButtonElement>,
 ) {
@@ -34,7 +43,11 @@ export const Button = forwardRef(function Button(
       aria-busy={loading || undefined}
       {...rest}
     >
-      {loading ? <span className="pm-btn__spinner" aria-hidden /> : leftIcon ? <Icon name={leftIcon} size={16} /> : null}
+      {loading ? (
+        <span className="pm-btn__spinner" aria-hidden />
+      ) : leftIcon ? (
+        <Icon name={leftIcon} size={16} />
+      ) : null}
       {children ? <span className="pm-btn__label">{children}</span> : null}
       {rightIcon && !loading ? <Icon name={rightIcon} size={16} /> : null}
     </button>

@@ -9,7 +9,7 @@
    Desktop apps are Tauri webviews of the web build, so "native desktop" costs zero extra UI code.
 3. **Headless core + platform adapters.** `@pixelmist/core` holds platform-agnostic logic
    (state hooks, `cx`, types) with no DOM/RN imports. `@pixelmist/react` and `@pixelmist/native`
-   implement the *same component API* over it.
+   implement the _same component API_ over it.
 4. **One component API, two renderers.** `Button`, `Text`, `Card`, … take identical props
    (`variant`, `size`, `tone`) on both platforms; styling comes from tokens, so each platform
    renders truly natively (CSS vars vs StyleSheet).
@@ -25,18 +25,18 @@
 
 ## ADRs
 
-| # | Decision | Rationale | Alternatives rejected |
-|---|----------|-----------|----------------------|
-| 001 | Two renderers: DOM + RN | RN-web can't hit native quality on mobile; full RN-everywhere cripples web | react-native-web everywhere; Tamagui (adds compiler complexity, desktop still webview) |
-| 002 | Desktop = Tauri v2 webview, not Electron | ~10x smaller bundles, OS webview, Rust IPC when native power is needed | Electron (heavy), native Swift/Kotlin UI (not React/TS) |
-| 003 | Token tiers + `{ref}` alias system | semantic refs survive re-theming; component tokens bind components to roles | flat tokens (no theming), CSS-only (untyped, no RN) |
-| 004 | Theme switch via `data-theme` attribute on web | zero-JS restyle, SSR-friendly, works with `color-scheme` | class-based JS theming (flash of wrong theme) |
-| 005 | `@pixelmist/core` must never import DOM/RN | guarantees portability; enforced by review + package deps | putting utils in each renderer (drift) |
-| 006 | `--pm-` CSS var prefix, `pm-` class prefix | collision-proof namespacing | unprefixed vars |
-| 007 | npm workspaces + turbo + tsup (no pnpm/Nx) | zero extra tooling to install, fast enough at this scale | pnpm, Nx, Lerna |
-| 008 | Tests: vitest + Testing Library (react); typecheck gate for native | behavior tests where they run today (DOM); native verified by tsc against real RN types | Storybook-only "tests" |
-| 009 | Status colors (success/info/warning/danger) added beyond the sunset palette | a harness UI needs semantic status; kept as *soft bg + colored fg* to stay in-voice | reusing only orange/yellow (ambiguous) |
-| 010 | Font stacks are tokens with free fallbacks (Georgia/system/mono) | PP Editorial is commercial; Inter/JetBrains Mono load via Google Fonts in apps | hard dependency on licensed fonts in the DS |
+| #   | Decision                                                                    | Rationale                                                                               | Alternatives rejected                                                                  |
+| --- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 001 | Two renderers: DOM + RN                                                     | RN-web can't hit native quality on mobile; full RN-everywhere cripples web              | react-native-web everywhere; Tamagui (adds compiler complexity, desktop still webview) |
+| 002 | Desktop = Tauri v2 webview, not Electron                                    | ~10x smaller bundles, OS webview, Rust IPC when native power is needed                  | Electron (heavy), native Swift/Kotlin UI (not React/TS)                                |
+| 003 | Token tiers + `{ref}` alias system                                          | semantic refs survive re-theming; component tokens bind components to roles             | flat tokens (no theming), CSS-only (untyped, no RN)                                    |
+| 004 | Theme switch via `data-theme` attribute on web                              | zero-JS restyle, SSR-friendly, works with `color-scheme`                                | class-based JS theming (flash of wrong theme)                                          |
+| 005 | `@pixelmist/core` must never import DOM/RN                                  | guarantees portability; enforced by review + package deps                               | putting utils in each renderer (drift)                                                 |
+| 006 | `--pm-` CSS var prefix, `pm-` class prefix                                  | collision-proof namespacing                                                             | unprefixed vars                                                                        |
+| 007 | npm workspaces + turbo + tsup (no pnpm/Nx)                                  | zero extra tooling to install, fast enough at this scale                                | pnpm, Nx, Lerna                                                                        |
+| 008 | Tests: vitest + Testing Library (react); typecheck gate for native          | behavior tests where they run today (DOM); native verified by tsc against real RN types | Storybook-only "tests"                                                                 |
+| 009 | Status colors (success/info/warning/danger) added beyond the sunset palette | a harness UI needs semantic status; kept as _soft bg + colored fg_ to stay in-voice     | reusing only orange/yellow (ambiguous)                                                 |
+| 010 | Font stacks are tokens with free fallbacks (Georgia/system/mono)            | PP Editorial is commercial; Inter/JetBrains Mono load via Google Fonts in apps          | hard dependency on licensed fonts in the DS                                            |
 
 ## Repo map
 

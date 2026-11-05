@@ -5,7 +5,20 @@ import { themes, defaultTheme, themeNames } from './semantic';
 import type { ThemeName, SemanticColorTokens } from './semantic';
 import { componentTokens } from './components';
 
-export { palette, fonts, textScale, spacing, radius, elevation, motion, layout, themes, defaultTheme, themeNames, componentTokens };
+export {
+  palette,
+  fonts,
+  textScale,
+  spacing,
+  radius,
+  elevation,
+  motion,
+  layout,
+  themes,
+  defaultTheme,
+  themeNames,
+  componentTokens,
+};
 export type { ThemeName, SemanticColorTokens };
 export type { TextVariant } from './typography';
 
@@ -68,7 +81,16 @@ export function resolveTheme(name: ThemeName) {
   const primitives = { ...palette, font: fonts, text: textScale, space: spacing, radius, elevation, motion, layout };
   const lookup = flatten({ ...primitives, color: semantic });
   const initial = {
-    palette, font: fonts, text: textScale, space: spacing, radius, elevation, motion, layout, color: semantic, components: componentTokens,
+    palette,
+    font: fonts,
+    text: textScale,
+    space: spacing,
+    radius,
+    elevation,
+    motion,
+    layout,
+    color: semantic,
+    components: componentTokens,
   };
   // refs can chain (component -> semantic -> primitive); iterate until stable
   let out = resolveRefs(initial, lookup);
@@ -83,4 +105,8 @@ export function resolveTheme(name: ThemeName) {
 export type ResolvedTheme = ReturnType<typeof resolveTheme>;
 
 /** CSS custom property name for a token path: "color.bg.canvas" -> "--pm-color-bg-canvas" */
-export const cssVar = (path: string) => `--pm-${path.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase().replace(/\./g, '-')}`;
+export const cssVar = (path: string) =>
+  `--pm-${path
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .toLowerCase()
+    .replace(/\./g, '-')}`;

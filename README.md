@@ -20,10 +20,14 @@ import '@pixelmist/react/styles.css';
 import { ThemeProvider, Button, Text, SunsetStripe } from '@pixelmist/react';
 
 <ThemeProvider storageKey="pm-theme">
-  <Text as="h1" variant="hero-display">Frontier tooling. In your hands.</Text>
-  <Button variant="primary" rightIcon="arrow-right">Start building</Button>
+  <Text as="h1" variant="hero-display">
+    Frontier tooling. In your hands.
+  </Text>
+  <Button variant="primary" rightIcon="arrow-right">
+    Start building
+  </Button>
   <SunsetStripe />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 ```tsx

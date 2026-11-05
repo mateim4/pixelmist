@@ -4,8 +4,17 @@ import type { TextVariant } from '@pixelmist/tokens';
 import { cx } from '@pixelmist/core';
 
 export type TextTone =
-  | 'default' | 'muted' | 'subtle' | 'disabled' | 'inverse'
-  | 'accent' | 'link' | 'success' | 'info' | 'warning' | 'danger';
+  | 'default'
+  | 'muted'
+  | 'subtle'
+  | 'disabled'
+  | 'inverse'
+  | 'accent'
+  | 'link'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger';
 
 const toneColor: Record<TextTone, string> = {
   default: 'var(--pm-color-fg-default)',

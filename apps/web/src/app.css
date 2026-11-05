@@ -1,7 +1,23 @@
 /* App-level styles. Component styles live in @pixelmist/react/styles.css;
    tokens in @pixelmist/tokens/tokens.css. This file only lays out the playground. */
-* { box-sizing: border-box; }
-body { margin: 0; }
-.pm-playground section { padding-block: var(--pm-space-section); border-bottom: 1px solid var(--pm-color-border-soft); }
-.pm-playground .row { display: flex; flex-wrap: wrap; gap: var(--pm-space-md); align-items: center; }
-.pm-playground .grid { display: grid; gap: var(--pm-space-xl); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.pm-playground section {
+  padding-block: var(--pm-space-section);
+  border-bottom: 1px solid var(--pm-color-border-soft);
+}
+.pm-playground .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-md);
+  align-items: center;
+}
+.pm-playground .grid {
+  display: grid;
+  gap: var(--pm-space-xl);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}

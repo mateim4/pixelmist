@@ -1,0 +1,8 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "changelog": false,
+  "access": "restricted",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": ["@pixelmist/web", "@pixelmist/desktop", "@pixelmist/mobile"]
+}

@@ -30,14 +30,19 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(function TextFiel
     <View style={{ gap: space(t, 'xxs') }} accessibilityLabel={label}>
       {label ? <Text variant="body-sm-medium">{label}</Text> : null}
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {leftIcon ? <View style={{ position: 'absolute', left: space(t, 'md'), zIndex: 1 }}><Icon name={leftIcon} size={16} color={t.color.fg.subtle} /></View> : null}
+        {leftIcon ? (
+          <View style={{ position: 'absolute', left: space(t, 'md'), zIndex: 1 }}>
+            <Icon name={leftIcon} size={16} color={t.color.fg.subtle} />
+          </View>
+        ) : null}
         <TextInput
           ref={ref}
           accessibilityLabel={label ?? rest.accessibilityLabel}
           accessibilityHint={hint ?? error}
           style={[
             {
-              flex: 1, height,
+              flex: 1,
+              height,
               backgroundColor: String(input.bg),
               color: String(input.fg),
               borderWidth: 1,
@@ -53,10 +58,21 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(function TextFiel
           placeholderTextColor={String(input.placeholder)}
           {...rest}
         />
-        {rightIcon ? <View style={{ position: 'absolute', right: space(t, 'md'), zIndex: 1 }}><Icon name={rightIcon} size={16} color={t.color.fg.subtle} /></View> : null}
+        {rightIcon ? (
+          <View style={{ position: 'absolute', right: space(t, 'md'), zIndex: 1 }}>
+            <Icon name={rightIcon} size={16} color={t.color.fg.subtle} />
+          </View>
+        ) : null}
       </View>
-      {hasError ? <Text variant="caption" tone="danger">{error}</Text>
-        : hint ? <Text variant="caption" tone="muted">{hint}</Text> : null}
+      {hasError ? (
+        <Text variant="caption" tone="danger">
+          {error}
+        </Text>
+      ) : hint ? (
+        <Text variant="caption" tone="muted">
+          {hint}
+        </Text>
+      ) : null}
     </View>
   );
 });

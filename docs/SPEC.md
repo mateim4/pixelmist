@@ -32,26 +32,28 @@
 
 ## Component contract (identical props on `@pixelmist/react` and `@pixelmist/native`)
 
-| Component | Key props | Notes |
-|---|---|---|
-| `ThemeProvider` / `useTheme` | `theme?`, `defaultTheme?`, `onThemeChange?` (+`storageKey` web) | sets `data-theme` (web) / resolved context (native) |
-| `Box` / `Stack` | `display direction gap padding* margin* align justify wrap flex width maxWidth radius bg color as?` | spacing props: token name (`"xl"`) or px number |
-| `Text` | `as? variant tone` | 19 type variants × 11 tones |
-| `Button` | `variant: primary/secondary/dark/cream/link`, `size: sm/md/lg`, `loading fullWidth leftIcon rightIcon` | 44px min height, radius 8 |
-| `Badge` | `variant: accent/cream/dark/outline`, `tone: neutral/success/info/warning/danger` | radius full |
-| `Card` | `variant: base/feature/cream/featured/code`, `padding?` | featured = 2px accent border |
-| `TextField` | `label hint error size leftIcon rightIcon` + input props | 44px, accent focus ring, `role=alert` errors |
-| `Switch` | `checked defaultChecked onCheckedChange label` | `role="switch"` / RN Switch |
-| `Tabs` | `variant: pill/underline`, `value defaultValue onValueChange`; `Tabs.List`, `Tabs.Tab` | `role=tablist/tab`, `aria-selected` |
-| `Icon` | `name size strokeWidth color? title?` | paths from `@pixelmist/icons` |
-| `IconTile` | `icon label?` | cream tile |
-| `CodeBlock` | `title code actions?` | dark `#1C1C1E` panel + header |
-| `SunsetStripe` | `height?` | brand gradient band |
+| Component                    | Key props                                                                                              | Notes                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| `ThemeProvider` / `useTheme` | `theme?`, `defaultTheme?`, `onThemeChange?` (+`storageKey` web)                                        | sets `data-theme` (web) / resolved context (native) |
+| `Box` / `Stack`              | `display direction gap padding* margin* align justify wrap flex width maxWidth radius bg color as?`    | spacing props: token name (`"xl"`) or px number     |
+| `Text`                       | `as? variant tone`                                                                                     | 19 type variants × 11 tones                         |
+| `Button`                     | `variant: primary/secondary/dark/cream/link`, `size: sm/md/lg`, `loading fullWidth leftIcon rightIcon` | 44px min height, radius 8                           |
+| `Badge`                      | `variant: accent/cream/dark/outline`, `tone: neutral/success/info/warning/danger`                      | radius full                                         |
+| `Card`                       | `variant: base/feature/cream/featured/code`, `padding?`                                                | featured = 2px accent border                        |
+| `TextField`                  | `label hint error size leftIcon rightIcon` + input props                                               | 44px, accent focus ring, `role=alert` errors        |
+| `Switch`                     | `checked defaultChecked onCheckedChange label`                                                         | `role="switch"` / RN Switch                         |
+| `Tabs`                       | `variant: pill/underline`, `value defaultValue onValueChange`; `Tabs.List`, `Tabs.Tab`                 | `role=tablist/tab`, `aria-selected`                 |
+| `Icon`                       | `name size strokeWidth color? title?`                                                                  | paths from `@pixelmist/icons`                       |
+| `IconTile`                   | `icon label?`                                                                                          | cream tile                                          |
+| `CodeBlock`                  | `title code actions?`                                                                                  | dark `#1C1C1E` panel + header                       |
+| `SunsetStripe`               | `height?`                                                                                              | brand gradient band                                 |
 
 ## Accessibility contract
 
 - Interactive components expose correct roles/states (`switch`+`aria-checked`, `tab`+`aria-selected`,
   `aria-invalid`/`aria-describedby` on inputs, `role=alert` on errors, `aria-busy` on loading).
 - Shared focus ring token (`elevation.focusRingColor/Width/Offset`); `:focus-visible` on web.
-- `prefers-reduced-motion` zeroes token durations (CSS) and slows the spinner.
+- `prefers-reduced-motion` zeroes token durations (CSS) and all pm animations/transitions (web); RN components avoid loops.
+- **Contrast gate**: `scripts/check-contrast.mjs` runs in the tokens build and fails CI if any fg/bg text pair drops below WCAG AA 4.5:1 (58 checks across both themes).
+- **Motion system**: tokenized durations (`instant/fast/normal/slow`) + easings (`standard/emphasized/entrance/spring`); hover lift on buttons/cards/icon tiles, sliding tab indicator, overlay enter/exit keyframes, toast slide + progress, panning sunset stripe — all disabled under reduced motion.
 - Color pairs are chosen WCAG-AA (accent on white, soft-status pairs, on-accent white).

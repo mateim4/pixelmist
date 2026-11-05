@@ -11,12 +11,5 @@ export interface SunsetStripeProps extends HTMLAttributes<HTMLDivElement> {
  * Placed at the foot of a page/screen.
  */
 export function SunsetStripe({ height = 10, className, style, ...rest }: SunsetStripeProps) {
-  return (
-    <div
-      aria-hidden
-      className={cx('pm-sunset-stripe', className)}
-      style={{ height, ...style }}
-      {...rest}
-    />
-  );
+  return <div aria-hidden className={cx('pm-sunset-stripe', className)} style={{ height, ...style }} {...rest} />;
 }

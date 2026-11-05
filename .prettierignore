@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-ts
+.turbo
+apps/web/dist
+apps/desktop/src-tauri/target
+package-lock.json
