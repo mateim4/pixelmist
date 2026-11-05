@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-ts/
+.turbo/
+target/
+.expo/
+android/
+ios/
+*.log

@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Pixelmist",
+    "slug": "pixelmist",
+    "version": "0.1.0",
+    "scheme": "pixelmist",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": { "backgroundColor": "#FFF8E0" },
+    "ios": { "supportsTablet": true },
+    "android": { "adaptiveIcon": { "backgroundColor": "#FFF8E0" } }
+  }
+}

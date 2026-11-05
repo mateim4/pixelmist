@@ -1,0 +1,33 @@
+/**
+ * Tier 3 — component tokens. Aliases over semantic/tier-1 tokens via "{ref}".
+ * Resolved per theme in tokens.json (concrete values, for React Native)
+ * and emitted as var(--pm-*) aliases in tokens.css (for the DOM).
+ */
+export const componentTokens = {
+  button: {
+    primary:   { bg: '{color.accent.primary}', bgHover: '{color.accent.primaryHover}', bgActive: '{color.accent.primaryActive}', fg: '{color.fg.onAccent}', border: 'transparent', radius: '{radius.md}', padY: 10, padX: 20, text: '{text.button-md}', minHeight: 44 },
+    secondary: { bg: 'transparent', bgHover: '{color.bg.surface}', bgActive: '{color.bg.creamSoft}', fg: '{color.fg.default}', border: '{color.border.strong}', radius: '{radius.md}', padY: 10, padX: 20, text: '{text.button-md}', minHeight: 44 },
+    dark:      { bg: '{color.bg.inverse}', bgHover: '{color.fg.muted}', bgActive: '{color.fg.default}', fg: '{color.fg.inverse}', border: 'transparent', radius: '{radius.md}', padY: 10, padX: 20, text: '{text.button-md}', minHeight: 44 },
+    cream:     { bg: '{color.bg.cream}', bgHover: '{color.bg.creamSoft}', bgActive: '{color.bg.cream}', fg: '{color.fg.default}', border: '{color.border.onCream}', radius: '{radius.md}', padY: 10, padX: 20, text: '{text.button-md}', minHeight: 44 },
+    link:      { bg: 'transparent', bgHover: 'transparent', bgActive: 'transparent', fg: '{color.fg.link}', border: 'transparent', radius: '{radius.sm}', padY: 0, padX: 0, text: '{text.body-sm-medium}', minHeight: 0 },
+  },
+  badge: {
+    accent: { bg: '{color.accent.primary}', fg: '{color.fg.onAccent}', radius: '{radius.full}', padY: 4, padX: 10, text: '{text.caption-bold}' },
+    cream:  { bg: '{color.bg.cream}', fg: '{color.fg.default}', border: '{color.border.onCream}', radius: '{radius.full}', padY: 4, padX: 10, text: '{text.caption-bold}' },
+    dark:   { bg: '{color.bg.inverse}', fg: '{color.fg.inverse}', radius: '{radius.full}', padY: 4, padX: 10, text: '{text.caption-bold}' },
+    outline:{ bg: 'transparent', fg: '{color.fg.muted}', border: '{color.border.default}', radius: '{radius.full}', padY: 4, padX: 10, text: '{text.caption-bold}' },
+  },
+  card: {
+    base:     { bg: '{color.bg.raised}', border: '{color.border.soft}', radius: '{radius.lg}', padding: '{space.xl}', shadow: '{elevation.shadow.none}' },
+    feature:  { bg: '{color.bg.raised}', border: '{color.border.soft}', radius: '{radius.lg}', padding: '{space.xxl}', shadow: '{elevation.shadow.2}' },
+    cream:    { bg: '{color.bg.cream}', border: '{color.border.onCream}', radius: '{radius.lg}', padding: '{space.xxl}', shadow: '{elevation.shadow.none}' },
+    featured: { bg: '{color.bg.cream}', border: '{color.accent.primary}', borderWidth: 2, radius: '{radius.lg}', padding: '{space.xxl}', shadow: '{elevation.shadow.2}' },
+    code:     { bg: '{color.bg.code}', border: 'transparent', radius: '{radius.lg}', padding: 0, shadow: '{elevation.shadow.3}' },
+  },
+  input: {
+    default: { bg: '{color.bg.raised}', fg: '{color.fg.default}', placeholder: '{color.fg.disabled}', border: '{color.border.strong}', borderActive: '{color.accent.primary}', radius: '{radius.md}', height: 44, padX: '{space.md}', text: '{text.body-md}' },
+  },
+  iconTile: { bg: '{color.bg.cream}', border: '{color.border.onCream}', radius: '{radius.md}', padding: '{space.md}', size: 40 },
+} as const;
+
+export type ComponentTokens = typeof componentTokens;

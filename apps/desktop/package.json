@@ -1,0 +1,15 @@
+{
+  "name": "@pixelmist/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pixelmist desktop app (Linux/Windows/macOS) — Tauri v2 shell hosting the web build (@pixelmist/web).",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "web:dev": "npm run dev -w @pixelmist/web",
+    "web:build": "npm run build -w @pixelmist/web"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.2.0"
+  }
+}
