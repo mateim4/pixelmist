@@ -11,13 +11,14 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@pixelmist/native": "^0.1.0",
-    "@pixelmist/tokens": "^0.1.0",
+    "@pixelmist/native": "^0.2.0",
+    "@pixelmist/tokens": "^0.2.0",
     "expo": "~52.0.0",
     "expo-status-bar": "~2.0.0",
     "react": "18.3.1",
     "react-native": "0.76.5",
-    "react-native-svg": "15.10.1"
+    "react-native-svg": "15.10.1",
+    "electron-to-chromium": "1.5.477"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",

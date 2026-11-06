@@ -20,3 +20,23 @@ jobs:
         with: { node-version: 22 }
       - name: Typecheck Expo app (installs its own deps)
         run: cd apps/mobile && npm install --no-audit --no-fund && npm run typecheck
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Build web app
+        run: cd apps/web && npm run build
+      - name: Run Playwright tests
+        run: cd apps/web && npm run test:e2e
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/e2e/__screenshots__
+          retention-days: 30

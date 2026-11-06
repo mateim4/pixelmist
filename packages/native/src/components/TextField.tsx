@@ -22,6 +22,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(function TextFiel
   ref,
 ) {
   const { resolved: t } = useTheme();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const id = useId();
   const input = asTokens(asTokens(t.components.input)['default'] ?? {});
   const hasError = Boolean(error);

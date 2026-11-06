@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import TestRenderer, { act } from 'react-test-renderer';
-import { ThemeProvider, Button, Text, Badge, Progress, Checkbox, Message } from '../src';
+import { ThemeProvider, Button, Text, Badge, Progress, Checkbox, Message, Card, Switch, TextField, Select, Radio, RadioGroup, Dialog, ToastProvider, AccentScope } from '../src';
 
 const render = (node: React.ReactNode) => TestRenderer.create(<ThemeProvider>{node}</ThemeProvider>);
 
@@ -61,5 +61,77 @@ describe('@pixelmist/native (node render smoke)', () => {
     const json = JSON.stringify(tree);
     expect(json).toContain('Ship it');
     expect(json).toContain('vibe');
+  });
+
+  // Additional tests for 16 total
+  it('renders Card with variant base', () => {
+    const tree = render(<Card variant="base"><Text>Card content</Text></Card>).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Card content');
+  });
+
+  it('renders Switch with label', () => {
+    const tree = render(<Switch label="Toggle" />).toJSON() as any;
+    const json = JSON.stringify(tree);
+    expect(json).toContain('Toggle');
+    expect(json).toContain('Switch');
+  });
+
+  it('renders TextField with label', () => {
+    const tree = render(<TextField label="Input" />).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Input');
+  });
+
+  it('renders Select with label', () => {
+    const tree = render(
+      <Select label="Choose" options={[{ value: 'a', label: 'Option A' }]}>
+        <Select.Option value="a" label="Option A" />
+      </Select>
+    ).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Choose');
+  });
+
+  it('renders RadioGroup with options', () => {
+    const tree = render(
+      <RadioGroup label="Select one">
+        <Radio value="a" label="A" />
+        <Radio value="b" label="B" />
+      </RadioGroup>
+    ).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Select one');
+    expect(JSON.stringify(tree)).toContain('A');
+  });
+
+  it('renders Dialog with title', () => {
+    const tree = render(
+      <Dialog open={true} title="Test">
+        <Text>Content</Text>
+      </Dialog>
+    ).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Test');
+    expect(JSON.stringify(tree)).toContain('Content');
+  });
+
+  it('renders ToastProvider', () => {
+    const tree = render(<ToastProvider><Text>Test</Text></ToastProvider>).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Test');
+  });
+
+  it('renders AccentScope', () => {
+    const tree = render(
+      <AccentScope accentPrimary="#ff0000">
+        <Text>Scoped</Text>
+      </AccentScope>
+    ).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Scoped');
+  });
+
+  it('Badge variant accent renders correctly', () => {
+    const tree = render(<Badge variant="accent">New</Badge>).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('New');
+  });
+
+  it('Button secondary variant renders', () => {
+    const tree = render(<Button variant="secondary">Secondary</Button>).toJSON() as any;
+    expect(JSON.stringify(tree)).toContain('Secondary');
   });
 });

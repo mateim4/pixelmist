@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
-import { space } from '../theme/helpers';
 import { Text } from './Text';
 import { Box } from './Box';
 

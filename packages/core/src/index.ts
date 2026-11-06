@@ -32,6 +32,9 @@ export function useControllableState<T>(
 
 export { useId };
 
+export { AccentScope, useAccentScope, useAccentColor } from './AccentScope';
+export type { AccentScopeProps, AccentScopeValue } from './AccentScope';
+
 /** Polymorphic-ish helper types shared by both renderers. */
 export interface WithClassName {
   className?: string;

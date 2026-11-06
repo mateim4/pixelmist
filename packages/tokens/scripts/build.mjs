@@ -27,15 +27,6 @@ function cssVal(path, v) {
   return `${v}px`;
 }
 
-/** ref -> var(--pm-…) alias for CSS (group refs expand per-leaf) */
-function cssRef(path, v, flatPrimitives) {
-  if (!isRef(v)) return cssVal(path, v);
-  const p = refPath(v);
-  if (flatPrimitives[p] !== undefined) return `var(${cssVar(p)})`;
-  // group ref (e.g. {text.button-md}) — caller expands; emit nothing here
-  return null;
-}
-
 const flatPrim = T.flatten({
   ...T.palette,
   font: T.fonts,
