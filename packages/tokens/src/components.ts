@@ -6,9 +6,9 @@
 export const componentTokens = {
   button: {
     primary: {
-      bg: '{sunset.800}',
-      bgHover: '{sunset.900}',
-      bgActive: '{sunset.950}',
+      bg: '{dusk.700}',
+      bgHover: '{dusk.800}',
+      bgActive: '{dusk.950}',
       fg: '{color.fg.onAccent}',
       border: 'transparent',
       radius: '{radius.md}',
@@ -68,7 +68,7 @@ export const componentTokens = {
   },
   badge: {
     accent: {
-      bg: '{sunset.800}',
+      bg: '{dusk.700}',
       fg: '{color.fg.onAccent}',
       radius: '{radius.full}',
       padY: 4,

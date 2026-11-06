@@ -3,7 +3,7 @@
 ## v0.1 (done)
 
 - Token pipeline (3 tiers, refs, CSS/JSON/native artifacts), themes `daylight` + `terminal`
-- Core primitives: Box/Stack, Text, Button, Badge, Card, TextField, Switch, Tabs, Icon, IconTile, CodeBlock, SunsetStripe, ThemeProvider — on web (@pixelmist/react) and mobile (@pixelmist/native)
+- Core primitives: Box/Stack, Text, Button, Badge, Card, TextField, Switch, Tabs, Icon, IconTile, CodeBlock, AccentStripe, ThemeProvider — on web (@pixelmist/react) and mobile (@pixelmist/native)
 - Apps: web playground (Vite), desktop shell (Tauri v2), mobile shell (Expo)
 - 11 behavior tests (vitest), full typecheck via turbo
 

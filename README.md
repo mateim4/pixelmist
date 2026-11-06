@@ -17,7 +17,7 @@ npm run dev          # playground at http://localhost:5173 (toggle daylight/term
 // web / desktop (DOM)
 import '@pixelmist/tokens/tokens.css';
 import '@pixelmist/react/styles.css';
-import { ThemeProvider, Button, Text, SunsetStripe } from '@pixelmist/react';
+import { ThemeProvider, Button, Text, AccentStripe } from '@pixelmist/react';
 
 <ThemeProvider storageKey="pm-theme">
   <Text as="h1" variant="hero-display">
@@ -26,13 +26,13 @@ import { ThemeProvider, Button, Text, SunsetStripe } from '@pixelmist/react';
   <Button variant="primary" rightIcon="arrow-right">
     Start building
   </Button>
-  <SunsetStripe />
+  <AccentStripe />
 </ThemeProvider>;
 ```
 
 ```tsx
 // mobile (React Native, Expo)
-import { ThemeProvider, Button, Text, SunsetStripe } from '@pixelmist/native';
+import { ThemeProvider, Button, Text, AccentStripe } from '@pixelmist/native';
 // same JSX — components resolve the theme from tokens at runtime
 ```
 

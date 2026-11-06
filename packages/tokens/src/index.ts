@@ -24,7 +24,7 @@ export type { TextVariant } from './typography';
 
 type Flat = Record<string, string | number>;
 
-/** "{sunset.700}" -> "sunset.700" */
+/** "{dusk.700}" -> "dusk.700" */
 const refPath = (v: string) => v.replace(/^\{|\}$/g, '').replace(/\.DEFAULT(?=\.|$)/g, '');
 const isRef = (v: unknown): v is string => typeof v === 'string' && /^\{.+\}$/.test(v);
 

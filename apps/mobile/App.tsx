@@ -8,7 +8,7 @@ import {
   CodeBlock,
   IconTile,
   Stack,
-  SunsetStripe,
+  AccentStripe,
   Switch,
   Tabs,
   Text,
@@ -112,7 +112,7 @@ export default function App() {
             <CodeBlock title="agent — bash" code={'$ vibe run "ship it"\n✓ done in 4.2s'} />
             <TextField label="API key" hint="Stored locally." placeholder="sk-…" leftIcon="search" />
           </Stack>
-          <SunsetStripe />
+          <AccentStripe />
         </ScrollView>
       </View>
     </ThemeProvider>

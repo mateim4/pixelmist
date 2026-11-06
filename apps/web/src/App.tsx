@@ -17,7 +17,7 @@ import {
   RadioGroup,
   Select,
   Stack,
-  SunsetStripe,
+  AccentStripe,
   Switch,
   Tabs,
   Text,
@@ -468,13 +468,13 @@ export function App() {
           <HarnessSection />
           <GamifiedSection />
           <Command open={commandOpen} onOpenChange={setCommandOpen} items={commandItems} />
-          <SunsetStripe />
+          <AccentStripe />
           <Box as="footer" className="pm-container" paddingY="section" display="flex" justify="space-between">
             <Text variant="micro" tone="muted">
               pixelmist — a Mistral-inspired design system · {basics.length > 0 ? 'animated' : ''}
             </Text>
             <Text variant="micro" tone="accent">
-              sunset stripe™ (panning)
+              accent stripe™ (panning)
             </Text>
           </Box>
         </div>

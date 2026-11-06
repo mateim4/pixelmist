@@ -583,10 +583,10 @@
     border-bottom-color: var(--pm-color-accent-primary);
   }
 
-  /* ---------- SunsetStripe (brand signature) ---------- */
-  .pm-sunset-stripe {
+  /* ---------- AccentStripe (brand signature) ---------- */
+  .pm-accent-stripe, .pm-sunset-stripe {
     width: 100%;
-    background: var(--pm-color-gradient-sunset);
+    background: var(--pm-color-gradient-stripe);
   }
 
   /* ---------- CodeBlock ---------- */
@@ -700,8 +700,8 @@
     transition: transform var(--pm-motion-duration-normal) var(--pm-motion-easing-spring);
   }
 
-  .pm-sunset-stripe {
-    background: var(--pm-color-gradient-sunset);
+  .pm-accent-stripe, .pm-sunset-stripe {
+    background: var(--pm-color-gradient-stripe);
     background-size: 200% 100%;
     animation: pm-stripe-pan 14s linear infinite;
   }
@@ -1337,7 +1337,7 @@
     color: #f2f1ec;
   }
   .pm-toolcall[data-status='running'] .pm-toolcall__header {
-    color: var(--pm-sunset-400);
+    color: var(--pm-dusk-400);
   }
   .pm-toolcall__code {
     margin: 0;
@@ -1412,7 +1412,7 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-    .pm-sunset-stripe {
+    .pm-accent-stripe, .pm-sunset-stripe {
       animation: none;
     }
   }

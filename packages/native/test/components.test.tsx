@@ -12,7 +12,7 @@ describe('@pixelmist/native (node render smoke)', () => {
     expect(text).toContain('"fontSize":28');
   });
 
-  it('Button resolves component tokens from the active theme (daylight primary bg = #E51300)', () => {
+  it('Button resolves component tokens from the active theme (daylight primary bg = #6D28D9 (dusk.700))', () => {
     let renderer!: TestRenderer.ReactTestRenderer;
     act(() => {
       renderer = render(<Button variant="primary">Run</Button>);
@@ -20,7 +20,7 @@ describe('@pixelmist/native (node render smoke)', () => {
     const btn = renderer.root.findByProps({ accessibilityRole: 'button' });
     expect(JSON.stringify(renderer.toJSON())).toContain('Run');
     const style = btn.props.style({ pressed: false }); // Pressable style callback
-    expect(JSON.stringify(style)).toContain('#E51300'); // resolved button.primary.bg
+    expect(JSON.stringify(style)).toContain('#6D28D9'); // resolved button.primary.bg
   });
 
   it('Badge tone success uses status colors', () => {

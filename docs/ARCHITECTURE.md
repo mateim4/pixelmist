@@ -35,7 +35,7 @@
 | 006 | `--pm-` CSS var prefix, `pm-` class prefix                                  | collision-proof namespacing                                                             | unprefixed vars                                                                        |
 | 007 | npm workspaces + turbo + tsup (no pnpm/Nx)                                  | zero extra tooling to install, fast enough at this scale                                | pnpm, Nx, Lerna                                                                        |
 | 008 | Tests: vitest + Testing Library (react); typecheck gate for native          | behavior tests where they run today (DOM); native verified by tsc against real RN types | Storybook-only "tests"                                                                 |
-| 009 | Status colors (success/info/warning/danger) added beyond the sunset palette | a harness UI needs semantic status; kept as _soft bg + colored fg_ to stay in-voice     | reusing only orange/yellow (ambiguous)                                                 |
+| 009 | Status colors (success/info/warning/danger) added beyond the dusk accent palette | a harness UI needs semantic status; kept as _soft bg + colored fg_ to stay in-voice     | reusing only one accent hue (ambiguous)                                                 |
 | 010 | Font stacks are tokens with free fallbacks (Georgia/system/mono)            | PP Editorial is commercial; Inter/JetBrains Mono load via Google Fonts in apps          | hard dependency on licensed fonts in the DS                                            |
 
 ## Repo map

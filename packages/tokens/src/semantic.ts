@@ -34,8 +34,13 @@ export interface SemanticColorTokens {
     warningSoft: string;
     dangerSoft: string;
   };
-  gradient: { sunset: string; hero: string };
+  gradient: { stripe: string; hero: string };
 }
+
+/** The signature accent band: violet → indigo → blue → ice (the "dusk sweep", from dusk/blue scale values). */
+export const STRIPE_GRADIENT =
+  'linear-gradient(90deg, #2E1065 0%, #4C1D95 18%, #6D28D9 36%, #8B5CF6 54%, #0EA5E9 72%, #7DD3FC 88%, #E0F2FE 100%)';
+export const HERO_GRADIENT = 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 55%, #0EA5E9 100%)';
 
 export const daylight: SemanticColorTokens = {
   bg: {
@@ -55,21 +60,21 @@ export const daylight: SemanticColorTokens = {
     disabled: '{ink.muted}',
     inverse: '{neutral.white}',
     onAccent: '{neutral.white}',
-    link: '{sunset.900}',
+    link: '{dusk.900}',
   },
   accent: {
-    primary: '{sunset.700}',
-    primaryHover: '{sunset.800}',
-    primaryActive: '{sunset.950}',
-    soft: '#FFF1E4',
-    softHover: '#FFE5D3',
+    primary: '{dusk.700}',
+    primaryHover: '{dusk.800}',
+    primaryActive: '{dusk.950}',
+    soft: '#F1EDFE',
+    softHover: '#E6DEFC',
   },
   border: {
     default: '{neutral.hairline}',
     soft: '{neutral.hairlineSoft}',
     strong: '{neutral.hairlineStrong}',
     inverse: 'rgba(255, 255, 255, 0.16)',
-    accent: '{sunset.700}',
+    accent: '{dusk.700}',
     onCream: '{cream.border}',
   },
   status: {
@@ -83,9 +88,8 @@ export const daylight: SemanticColorTokens = {
     dangerSoft: '#FDE7E5',
   },
   gradient: {
-    sunset:
-      'linear-gradient(90deg, #C4001D 0%, #E51300 18%, #FA500F 36%, #FF8204 54%, #FFAF01 72%, #FFD900 88%, #FFF8E0 100%)',
-    hero: 'linear-gradient(135deg, #FFA110 0%, #FF8A00 60%, #FA500F 100%)',
+    stripe: STRIPE_GRADIENT,
+    hero: HERO_GRADIENT,
   },
 };
 
@@ -107,37 +111,36 @@ export const terminal: SemanticColorTokens = {
     disabled: '{ink.steel}',
     inverse: '{ink.DEFAULT}',
     onAccent: '{neutral.white}',
-    link: '{sunset.500}',
+    link: '{dusk.400}',
   },
   accent: {
-    primary: '{sunset.600}',
-    primaryHover: '#FF9435',
-    primaryActive: '{sunset.400}',
-    soft: 'rgba(255, 130, 4, 0.14)',
-    softHover: 'rgba(255, 130, 4, 0.22)',
+    primary: '{dusk.500}',
+    primaryHover: '{dusk.400}',
+    primaryActive: '{dusk.300}',
+    soft: 'rgba(139, 92, 246, 0.14)',
+    softHover: 'rgba(139, 92, 246, 0.22)',
   },
   border: {
     default: '#2C2C2E',
     soft: '#242426',
     strong: '#3D3D3F',
     inverse: 'rgba(255, 255, 255, 0.16)',
-    accent: '{sunset.600}',
+    accent: '{dusk.500}',
     onCream: '#4A3F28',
   },
   status: {
     success: '#3FB97C',
-    info: '{blue.300}',
-    warning: '{sunset.400}',
+    info: '{blue.400}',
+    warning: '#FFB224',
     danger: '#FF5A45',
     successSoft: 'rgba(63, 185, 124, 0.14)',
-    infoSoft: 'rgba(85, 179, 251, 0.14)',
-    warningSoft: 'rgba(255, 175, 1, 0.14)',
+    infoSoft: 'rgba(56, 189, 248, 0.14)',
+    warningSoft: 'rgba(255, 178, 36, 0.14)',
     dangerSoft: 'rgba(255, 90, 69, 0.14)',
   },
   gradient: {
-    sunset:
-      'linear-gradient(90deg, #C4001D 0%, #E51300 18%, #FA500F 36%, #FF8204 54%, #FFAF01 72%, #FFD900 88%, #FFF8E0 100%)',
-    hero: 'linear-gradient(135deg, #FFA110 0%, #FF8A00 60%, #FA500F 100%)',
+    stripe: STRIPE_GRADIENT,
+    hero: HERO_GRADIENT,
   },
 };
 

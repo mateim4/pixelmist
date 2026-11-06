@@ -51,7 +51,7 @@ export function ToolCall({ name, status, args, result, children }: ToolCallProps
         }}
       >
         {status === 'running' ? (
-          <ActivityIndicator size="small" color={String(t.palette.sunset['400'])} />
+          <ActivityIndicator size="small" color={String(t.palette.dusk['400'])} />
         ) : (
           <Icon name="terminal" size={16} color="#f2f1ec" />
         )}

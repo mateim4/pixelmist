@@ -41,6 +41,9 @@ export type { ToolCallProps, ToolCallStatus } from './components/ToolCall';
 export { DiffView } from './components/DiffView';
 export type { DiffViewProps, DiffLine } from './components/DiffView';
 export { TypingDots } from './components/TypingDots';
+export { AccentStripe } from './components/AccentStripe';
+export type { AccentStripeProps } from './components/AccentStripe';
+/** @deprecated Renamed to `AccentStripe`. */
 export { SunsetStripe } from './components/SunsetStripe';
 export type { SunsetStripeProps } from './components/SunsetStripe';
 export { CodeBlock } from './components/CodeBlock';

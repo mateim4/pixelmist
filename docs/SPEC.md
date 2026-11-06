@@ -3,12 +3,12 @@
 ## Token schema
 
 - **Tier 1 primitives** (`packages/tokens/src/primitives.ts`, `typography.ts`, `foundations.ts`):
-  raw values only, never referenced by components directly. Palette groups: `sunset`, `cream`,
+  raw values only, never referenced by components directly. Palette groups: `dusk` (accent), `blue`, `sunset` (Mistral reference), `cream`,
   `ink`, `neutral`, `blue`, `grape`, `status`; `fonts` (display/ui/mono); `textScale` (19 variants);
   `spacing`, `radius`, `elevation`, `motion`, `layout`.
 - **Tier 2 semantic** (`semantic.ts`): one object per theme (`daylight`, `terminal`) with groups
   `bg`, `fg`, `accent`, `border`, `status`, `gradient`. Values are hex/rgb/gradient literals **or
-  `{ref}` aliases** into tier 1 (e.g. `'{sunset.700}'`; `DEFAULT` keys collapse: `{ink.DEFAULT}` → `ink`).
+  `{ref}` aliases** into tier 1 (e.g. `'{dusk.700}'`; `DEFAULT` keys collapse: `{ink.DEFAULT}` → `ink`).
 - **Tier 3 component** (`components.ts`): `button.*`, `badge.*`, `card.*`, `input.default`,
   `iconTile` — aliases over tiers 1–2 (`'{color.accent.primary}'`, `'{radius.md}'`, `'{text.button-md}'`).
 
@@ -46,7 +46,7 @@
 | `Icon`                       | `name size strokeWidth color? title?`                                                                  | paths from `@pixelmist/icons`                       |
 | `IconTile`                   | `icon label?`                                                                                          | cream tile                                          |
 | `CodeBlock`                  | `title code actions?`                                                                                  | dark `#1C1C1E` panel + header                       |
-| `SunsetStripe`               | `height?`                                                                                              | brand gradient band                                 |
+| `AccentStripe` (`SunsetStripe` deprecated alias) | `height?`                                                          | brand gradient band (dusk sweep)                |
 
 ## Accessibility contract
 
@@ -55,5 +55,5 @@
 - Shared focus ring token (`elevation.focusRingColor/Width/Offset`); `:focus-visible` on web.
 - `prefers-reduced-motion` zeroes token durations (CSS) and all pm animations/transitions (web); RN components avoid loops.
 - **Contrast gate**: `scripts/check-contrast.mjs` runs in the tokens build and fails CI if any fg/bg text pair drops below WCAG AA 4.5:1 (58 checks across both themes).
-- **Motion system**: tokenized durations (`instant/fast/normal/slow`) + easings (`standard/emphasized/entrance/spring`); hover lift on buttons/cards/icon tiles, sliding tab indicator, overlay enter/exit keyframes, toast slide + progress, panning sunset stripe — all disabled under reduced motion.
+- **Motion system**: tokenized durations (`instant/fast/normal/slow`) + easings (`standard/emphasized/entrance/spring`); hover lift on buttons/cards/icon tiles, sliding tab indicator, overlay enter/exit keyframes, toast slide + progress, panning accent stripe — all disabled under reduced motion.
 - Color pairs are chosen WCAG-AA (accent on white, soft-status pairs, on-accent white).
