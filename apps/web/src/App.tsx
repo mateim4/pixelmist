@@ -51,6 +51,7 @@ function Header({ onCommand }: { onCommand: () => void }) {
         background: 'var(--pm-color-bg-canvas)',
         borderBottom: '1px solid var(--pm-color-border-soft)',
       }}
+      data-testid="header"
     >
       <Box display="flex" align="center" gap="sm">
         <Box radius="sm" style={{ width: 22, height: 22, background: 'var(--pm-color-gradient-hero)' }} aria-hidden />
@@ -64,7 +65,7 @@ function Header({ onCommand }: { onCommand: () => void }) {
         ) : null}
       </Box>
       <Box display="flex" align="center" gap="md">
-        <Button variant="secondary" size="sm" leftIcon="terminal" onClick={onCommand}>
+        <Button variant="secondary" size="sm" leftIcon="terminal" onClick={onCommand} data-testid="command-button">
           Commands{' '}
           <kbd
             style={{
@@ -89,7 +90,7 @@ function Header({ onCommand }: { onCommand: () => void }) {
             Ping Tauri IPC
           </Button>
         ) : null}
-        <Button variant="secondary" size="sm" leftIcon={theme === 'daylight' ? 'moon' : 'sun'} onClick={toggleTheme}>
+        <Button variant="secondary" size="sm" leftIcon={theme === 'daylight' ? 'moon' : 'sun'} onClick={toggleTheme} data-testid="theme-toggle">
           {theme === 'daylight' ? 'Terminal' : 'Daylight'}
         </Button>
       </Box>
@@ -195,9 +196,12 @@ function OverlaysSection({ onCommand }: { onCommand: () => void }) {
 }
 
 function FormSection() {
+  const { theme, setTheme } = useTheme();
   const [plan, setPlan] = useState('pro');
+  const [sandbox, setSandbox] = useState('pro');
+  const isDark = theme === 'terminal';
   return (
-    <Section eyebrow="06 — Form" title="Select, checkbox, radio, textarea, progress">
+    <Section eyebrow="06 — Form" title="Select, checkbox, radio, textarea, progress" data-testid="form-section">
       <Box display="grid" gap="md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
         <Select
           label="Plan"
@@ -220,11 +224,11 @@ function FormSection() {
       <div className="row">
         <Checkbox label="Auto-approve file edits" defaultChecked />
         <Checkbox label="Notify on completion" />
-        <Switch label="Dark mode" defaultChecked={false} />
+        <Switch label="Dark mode" checked={isDark} onCheckedChange={(checked) => setTheme(checked ? 'terminal' : 'daylight')} />
       </div>
-      <RadioGroup label="Sandbox" value={plan} onValueChange={setPlan}>
-        <Radio value="free" label="Local (free)" />
-        <Radio value="pro" label="Cloud sandbox (pro)" />
+      <RadioGroup label="Sandbox" value={sandbox} onValueChange={setSandbox}>
+        <Radio value="local" label="Local (free)" />
+        <Radio value="cloud" label="Cloud sandbox (pro)" />
       </RadioGroup>
       <Progress value={64} label="XP to level 5" showValue />
     </Section>

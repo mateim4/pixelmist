@@ -1,5 +1,7 @@
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
 export type { ThemeProviderProps, ThemeContextValue, StorageLike } from './theme/ThemeProvider';
+export { AccentScope } from './components/AccentScope';
+export type { AccentScopeProps } from '@pixelmist/core';
 export { Icon } from './components/Icon';
 export type { IconProps } from './components/Icon';
 export { Box, Stack } from './components/Box';

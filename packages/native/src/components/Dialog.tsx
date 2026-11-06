@@ -1,7 +1,7 @@
-import { Modal, Pressable, View } from 'react-native';
+import { Modal, Pressable } from 'react-native';
 import type { ReactNode } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
-import { space, asTokens } from '../theme/helpers';
+import { space } from '../theme/helpers';
 import { Text } from './Text';
 import { Box } from './Box';
 

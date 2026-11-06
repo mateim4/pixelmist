@@ -1,6 +1,6 @@
 {
   "name": "@pixelmist/native",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pixelmist components for React Native (iOS/Android via Expo). Same component API as @pixelmist/react, styled from @pixelmist/tokens via StyleSheet.",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,14 +27,14 @@
     "react-native-svg": ">=15.0.0"
   },
   "dependencies": {
-    "@pixelmist/core": "^0.1.0",
-    "@pixelmist/icons": "^0.1.0",
-    "@pixelmist/tokens": "^0.1.0"
+    "@pixelmist/core": "^0.2.0",
+    "@pixelmist/icons": "^0.2.0",
+    "@pixelmist/tokens": "^0.2.0"
   },
   "devDependencies": {
-    "@pixelmist/core": "^0.1.0",
-    "@pixelmist/icons": "^0.1.0",
-    "@pixelmist/tokens": "^0.1.0",
+    "@pixelmist/core": "^0.2.0",
+    "@pixelmist/icons": "^0.2.0",
+    "@pixelmist/tokens": "^0.2.0",
     "@types/react": "^18.3.12",
     "react": "^18.3.1",
     "react-native": "^0.76.5",

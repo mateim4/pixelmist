@@ -3,7 +3,7 @@ import { Pressable, View } from 'react-native';
 import type { PressableProps, ViewProps } from 'react-native';
 import { useControllableState } from '@pixelmist/core';
 import { useTheme } from '../theme/ThemeProvider';
-import { textStyle, space } from '../theme/helpers';
+import { space } from '../theme/helpers';
 import { Text } from './Text';
 
 export type TabsVariant = 'pill' | 'underline';

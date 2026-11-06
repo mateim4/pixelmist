@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import type { ViewProps } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
-import { textStyle, space } from '../theme/helpers';
+import { space } from '../theme/helpers';
 import { Text } from './Text';
 
 export interface CodeBlockProps extends ViewProps {
@@ -15,16 +15,19 @@ export function CodeBlock({ title, code, children, style, ...rest }: CodeBlockPr
   const { resolved: t } = useTheme();
   return (
     <View
-      style={{
-        backgroundColor: t.color.bg.code,
-        borderRadius: t.radius.lg,
-        overflow: 'hidden',
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOpacity: 0.08,
-        shadowRadius: 12,
-        shadowOffset: { width: 0, height: 12 },
-      }}
+      style={[
+        {
+          backgroundColor: t.color.bg.code,
+          borderRadius: t.radius.lg,
+          overflow: 'hidden',
+          elevation: 3,
+          shadowColor: '#000',
+          shadowOpacity: 0.08,
+          shadowRadius: 12,
+          shadowOffset: { width: 0, height: 12 },
+        },
+        style,
+      ]}
       {...rest}
     >
       {title ? (

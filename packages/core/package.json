@@ -1,6 +1,6 @@
 {
   "name": "@pixelmist/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Platform-agnostic core: utilities, hooks and types shared by @pixelmist/react and @pixelmist/native. No DOM, no react-native imports.",
   "type": "module",
   "main": "./dist/index.js",
