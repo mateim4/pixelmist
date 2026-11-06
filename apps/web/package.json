@@ -7,11 +7,16 @@
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:baseline": "playwright test --update-snapshots"
   },
   "dependencies": {
-    "@pixelmist/react": "^0.1.0",
-    "@pixelmist/tokens": "^0.1.0",
+    "@pixelmist/react": "^0.2.0",
+    "@pixelmist/tokens": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@fontsource/inter": "^5.1.0",
@@ -19,10 +24,19 @@
     "@tauri-apps/api": "^2.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.47.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "~5.6.3",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "@storybook/addon-essentials": "^8.6.19",
+    "@storybook/addon-interactions": "^8.6.19",
+    "@storybook/addon-links": "^8.6.19",
+    "@storybook/blocks": "^8.6.19",
+    "@storybook/react": "^8.6.19",
+    "@storybook/react-vite": "^8.6.19",
+    "@storybook/test": "^8.6.19",
+    "storybook": "^8.6.19"
   }
 }

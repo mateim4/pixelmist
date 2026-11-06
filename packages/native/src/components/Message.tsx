@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
 import type { IconName } from '@pixelmist/icons';
 import { useTheme } from '../theme/ThemeProvider';
-import { space } from '../theme/helpers';
 import { Box, Stack } from './Box';
 import { Text } from './Text';
 import { IconTile } from './IconTile';

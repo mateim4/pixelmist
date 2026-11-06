@@ -7,3 +7,5 @@ target/
 android/
 ios/
 *.log
+pixel-forge/
+.agents/

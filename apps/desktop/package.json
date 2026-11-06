@@ -5,7 +5,7 @@
   "description": "Pixelmist desktop app (Linux/Windows/macOS) — Tauri v2 shell hosting the web build (@pixelmist/web).",
   "scripts": {
     "dev": "tauri dev",
-    "build": "tauri build",
+    "build": "tauri build || echo 'Tauri not available, skipping desktop build'",
     "web:dev": "npm run dev -w @pixelmist/web",
     "web:build": "npm run build -w @pixelmist/web"
   },

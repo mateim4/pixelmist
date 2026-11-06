@@ -1,6 +1,6 @@
 {
   "name": "@pixelmist/icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Platform-agnostic SVG icon path data for Pixelmist. Rendered by @pixelmist/react (DOM <svg>) and @pixelmist/native (react-native-svg).",
   "type": "module",
   "main": "./dist/index.js",
