@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
+import type { Ref } from 'react';
 import { Modal, Pressable, View } from 'react-native';
+import type { ViewProps } from 'react-native';
 import { useControllableState } from '@pixelmist/core';
 import { useTheme } from '../theme/ThemeProvider';
 import { space } from '../theme/helpers';
@@ -13,26 +15,40 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps<T = SelectOption> extends ViewProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (v: string) => void;
-  options: SelectOption[];
+  options?: SelectOption[];
+  /** Typed items API (same as web). */
+  items?: T[];
+  itemToString?: (item: T) => string;
+  itemToValue?: (item: T) => string;
   placeholder?: string;
   label?: string;
+  hint?: string;
+  error?: string;
+  warning?: string;
   disabled?: boolean;
 }
 
 /** Native select as a bottom-sheet style modal list. */
-export function Select({
+function SelectInner<T = SelectOption>({
   value,
   defaultValue,
   onValueChange,
   options,
+  items,
+  itemToString,
+  itemToValue,
   placeholder = 'Select…',
   label,
+  hint,
+  error,
+  warning,
   disabled,
-}: SelectProps) {
+  ...rest
+}: SelectProps<T>, ref: Ref<View>) {
   const { resolved: t } = useTheme();
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useControllableState<string | undefined>(
@@ -40,9 +56,18 @@ export function Select({
     defaultValue,
     onValueChange ? (v) => onValueChange(v as string) : undefined,
   );
-  const selected = options.find((o) => o.value === current);
+  const opts: SelectOption[] =
+    options ??
+    (items ?? []).map((item) => ({
+      value: itemToValue ? itemToValue(item) : itemToString!(item),
+      label: itemToString!(item),
+    }));
+  const selected = opts.find((o) => o.value === current);
+  const hasError = Boolean(error);
+  const hasWarning = !hasError && Boolean(warning);
+  const message = hasError ? error : hasWarning ? warning : hint;
   return (
-    <View>
+    <View ref={ref} {...rest}>
       {label ? (
         <Box paddingY="xxs">
           <Text variant="body-sm-medium">{label}</Text>
@@ -62,7 +87,7 @@ export function Select({
           paddingHorizontal: space(t, 'md'),
           backgroundColor: t.color.bg.raised,
           borderWidth: 1,
-          borderColor: t.color.border.strong,
+          borderColor: hasError ? t.color.status.danger : hasWarning ? t.color.status.warning : t.color.border.strong,
           borderRadius: t.radius.md,
           opacity: disabled ? 0.6 : 1,
         }}
@@ -72,6 +97,11 @@ export function Select({
         </Text>
         <Icon name="chevron-down" size={16} color={t.color.fg.subtle} />
       </Pressable>
+      {message ? (
+        <Text variant="caption" tone={hasError ? 'danger' : hasWarning ? 'warning' : 'muted'} accessibilityRole={hasError ? 'alert' : undefined}>
+          {message}
+        </Text>
+      ) : null}
       <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
         <Pressable
           style={{ flex: 1, backgroundColor: t.color.bg.overlay, justifyContent: 'flex-end' }}
@@ -87,7 +117,7 @@ export function Select({
             }}
             onPress={(e) => e.stopPropagation()}
           >
-            {options.map((opt) => (
+            {opts.map((opt) => (
               <Pressable
                 key={opt.value}
                 accessibilityRole="button"
@@ -120,3 +150,8 @@ export function Select({
     </View>
   );
 }
+
+/** forwardRef erases generics — re-expose the typed signature. */
+export const Select = forwardRef(SelectInner) as <T = SelectOption>(
+  props: SelectProps<T> & { ref?: Ref<View> },
+) => React.ReactElement;

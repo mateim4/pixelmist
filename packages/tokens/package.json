@@ -1,6 +1,6 @@
 {
   "name": "@pixelmist/tokens",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Single source of truth for Pixelmist design tokens (primitives, semantic themes, component tokens). Emits CSS variables, JSON and a native theme object.",
   "type": "module",
   "main": "./dist/index.js",
@@ -14,14 +14,15 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./tokens.json": "./dist/tokens.json",
-    "./figma-tokens.json": "./dist/figma-tokens.json"
+    "./figma-tokens.json": "./dist/figma-tokens.json",
+    "./terminal.json": "./dist/terminal.json"
   },
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts && node scripts/build.mjs && node scripts/check-contrast.mjs && node scripts/export-figma.mjs",
+    "build": "tsup src/index.ts --format esm,cjs --dts && node scripts/build.mjs && node scripts/check-contrast.mjs && node scripts/export-figma.mjs && node scripts/export-terminal.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "*.css"
   ],
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "restricted"
   }
 }

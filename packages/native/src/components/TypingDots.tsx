@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
+import type { ViewProps } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 
-export function TypingDots() {
+export const TypingDots = forwardRef<View, ViewProps>(function TypingDots({ style, ...rest }: ViewProps, ref) {
   const { resolved: t } = useTheme();
   const dots = [
     useRef(new Animated.Value(0)).current,
@@ -24,9 +25,11 @@ export function TypingDots() {
   }, []);
   return (
     <View
+      ref={ref}
       accessibilityLabel="Generating"
       accessibilityRole="progressbar"
-      style={{ flexDirection: 'row', gap: 4, paddingVertical: 8 }}
+      style={[{ flexDirection: 'row', gap: 4, paddingVertical: 8 }, style]}
+      {...rest}
     >
       {dots.map((d, i) => (
         <Animated.View
@@ -42,4 +45,4 @@ export function TypingDots() {
       ))}
     </View>
   );
-}
+});

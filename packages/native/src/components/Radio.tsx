@@ -17,21 +17,35 @@ export interface RadioGroupProps {
   defaultValue?: string;
   onValueChange?: (v: string) => void;
   label?: string;
+  hint?: string;
+  error?: string;
   children?: React.ReactNode;
 }
 
-export function RadioGroup({ value, defaultValue, onValueChange, label, children }: RadioGroupProps) {
+export function RadioGroup({ value, defaultValue, onValueChange, label, hint, error, children }: RadioGroupProps) {
   const { resolved: t } = useTheme();
   const [current, setCurrent] = useControllableState<string | undefined>(
     value,
     defaultValue,
     onValueChange ? (v) => onValueChange(v as string) : undefined,
   );
+  const hasError = Boolean(error);
+  const message = hasError ? error : hint;
   return (
     <RadioGroupContext.Provider value={{ value: current, setValue: setCurrent }}>
-      <View accessibilityRole="radiogroup" accessibilityLabel={label} style={{ gap: space(t, 'sm') }}>
+      <View
+        accessibilityRole="radiogroup"
+        accessibilityLabel={label}
+        accessibilityHint={message}
+        style={{ gap: space(t, 'sm') }}
+      >
         {label ? <Text variant="body-sm-medium">{label}</Text> : null}
         {children}
+        {message ? (
+          <Text variant="caption" tone={hasError ? 'danger' : 'muted'} accessibilityRole={hasError ? 'alert' : undefined}>
+            {message}
+          </Text>
+        ) : null}
       </View>
     </RadioGroupContext.Provider>
   );

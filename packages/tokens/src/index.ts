@@ -64,6 +64,7 @@ export function resolveRefs<T>(node: T, lookup: Flat): T {
     if (sub.length) return unflatten(sub.map(([k, v]) => [k.slice(p.length + 1), v])) as T;
     throw new Error(`Unresolved token ref: ${node}`);
   }
+  if (Array.isArray(node)) return node.map((v) => resolveRefs(v, lookup)) as T;
   if (node !== null && typeof node === 'object') {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = resolveRefs(v, lookup);

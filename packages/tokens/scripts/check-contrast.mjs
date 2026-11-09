@@ -71,6 +71,30 @@ for (const name of T.themeNames) {
   for (const tone of ['success', 'info', 'warning', 'danger']) {
     check(name, c.status[tone], c.status[tone + 'Soft'], 4.5, `status.${tone} on status.${tone}Soft`);
   }
+  check(name, c.status.onDanger, c.status.danger, 4.5, 'status.onDanger on status.danger');
+  // semantic tones: text on surface (AA text), onStrong on strong (AA text), strong on canvas (graphics 3:1)
+  for (const tone of ['attention', 'progress', 'settled', 'inactive']) {
+    const tn = c.tones[tone];
+    const surfaceHex = over(String(tn.surface), String(c.bg.canvas)); // blend rgba surface over canvas
+    check(name, tn.text, surfaceHex, 4.5, `tones.${tone}.text on tones.${tone}.surface`);
+    check(name, tn.onStrong, tn.strong, 4.5, `tones.${tone}.onStrong on tones.${tone}.strong`);
+    check(name, tn.strong, c.bg.canvas, 3.0, `tones.${tone}.strong on bg.canvas (graphics)`);
+    check(name, tn.text, c.bg.canvas, 3.0, `tones.${tone}.text on bg.canvas (graphics)`);
+  }
+  // dataviz: categorical >= 3:1 on canvas and surface (non-text graphics); every sequential
+  // step must carry readable text with one of the two fg colours (AA 4.5)
+  for (const [i, col] of c.dataviz.categorical.entries()) {
+    check(name, col, c.bg.canvas, 3.0, `dataviz.categorical[${i}] on bg.canvas`);
+    check(name, col, c.bg.surface, 3.0, `dataviz.categorical[${i}] on bg.surface`);
+  }
+  for (const [i, col] of c.dataviz.sequential.entries()) {
+    const rDef = ratio(over(String(c.fg.default), c.bg.canvas), col);
+    const rInv = ratio(over(String(c.fg.inverse), c.bg.canvas), col);
+    const ok = Math.max(rDef, rInv) >= 4.5;
+    if (!ok) failures++;
+    console.log(`${ok ? 'PASS' : 'FAIL'}  ${name.padEnd(9)} dataviz.sequential[${i}] readable text   ${Math.max(rDef, rInv).toFixed(2)}:1 (min 4.5)`);
+  }
+  check(name, c.dataviz.axisText, c.bg.canvas, 4.5, 'dataviz.axisText on bg.canvas');
   check(name, '#F2F1EC', c.bg.code, 4.5, 'code text on bg.code');
 }
 

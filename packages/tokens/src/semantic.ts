@@ -33,8 +33,38 @@ export interface SemanticColorTokens {
     infoSoft: string;
     warningSoft: string;
     dangerSoft: string;
+    onDanger: string;
+  };
+  /**
+   * The four semantic tones — "colour means state". One-to-one mapping to the
+   * legacy status hues: attention = warning, progress = info, settled = success,
+   * inactive = neutral. Each tone has surface (soft bg), border, text (fg on
+   * surface) and strong (solid bg) + onStrong (fg on strong). A count of zero is
+   * never toned — zero renders as inactive/neutral only.
+   */
+  tones: {
+    attention: ToneTokens;
+    progress: ToneTokens;
+    settled: ToneTokens;
+    inactive: ToneTokens;
+  };
+  /** Data-viz tokens: categorical palette (agents), sequential ramp (progress), grid/axis. */
+  dataviz: {
+    categorical: [string, string, string, string, string, string, string, string];
+    sequential: [string, string, string, string, string, string];
+    grid: string;
+    axis: string;
+    axisText: string;
   };
   gradient: { stripe: string; hero: string };
+}
+
+export interface ToneTokens {
+  surface: string;
+  border: string;
+  text: string;
+  strong: string;
+  onStrong: string;
 }
 
 /** The signature accent band: violet → indigo → blue → ice (the "dusk sweep", from dusk/blue scale values). */
@@ -86,6 +116,44 @@ export const daylight: SemanticColorTokens = {
     infoSoft: '#E3F1FC',
     warningSoft: '#FFF4D6',
     dangerSoft: '#FDE7E5',
+    onDanger: '{neutral.white}',
+  },
+  tones: {
+    attention: {
+      surface: '#FFF4D6',
+      border: '#E8C766',
+      text: '#8A5A00',
+      strong: '#8A5A00',
+      onStrong: '{neutral.white}',
+    },
+    progress: {
+      surface: '#E3F1FC',
+      border: '#B3D7F5',
+      text: '#0067B8',
+      strong: '#0067B8',
+      onStrong: '{neutral.white}',
+    },
+    settled: {
+      surface: '#E5F4EC',
+      border: '#BFE3CD',
+      text: '{status.success}',
+      strong: '{status.success}',
+      onStrong: '{neutral.white}',
+    },
+    inactive: {
+      surface: '#F0F0F0',
+      border: '{neutral.hairline}',
+      text: '{ink.steel}',
+      strong: '{ink.steel}',
+      onStrong: '{neutral.white}',
+    },
+  },
+  dataviz: {
+    categorical: ['#8B5CF6', '#0284C7', '#16A34A', '#D97706', '#DC2645', '#0D9488', '#DB2777', '#4D7C0F'],
+    sequential: ['#F1EDFE', '#DDD6FE', '#A78BFA', '#7C3AED', '#5B21B6', '#2E1065'],
+    grid: '{neutral.hairlineSoft}',
+    axis: '{neutral.hairlineStrong}',
+    axisText: '{ink.steel}',
   },
   gradient: {
     stripe: STRIPE_GRADIENT,
@@ -137,6 +205,44 @@ export const terminal: SemanticColorTokens = {
     infoSoft: 'rgba(56, 189, 248, 0.14)',
     warningSoft: 'rgba(255, 178, 36, 0.14)',
     dangerSoft: 'rgba(255, 90, 69, 0.14)',
+    onDanger: '#161618',
+  },
+  tones: {
+    attention: {
+      surface: 'rgba(255, 178, 36, 0.14)',
+      border: 'rgba(255, 178, 36, 0.45)',
+      text: '#FFB224',
+      strong: '#FFB224',
+      onStrong: '#161618',
+    },
+    progress: {
+      surface: 'rgba(56, 189, 248, 0.14)',
+      border: 'rgba(56, 189, 248, 0.45)',
+      text: '{blue.400}',
+      strong: '{blue.400}',
+      onStrong: '{blue.950}',
+    },
+    settled: {
+      surface: 'rgba(63, 185, 124, 0.14)',
+      border: 'rgba(63, 185, 124, 0.45)',
+      text: '#3FB97C',
+      strong: '#3FB97C',
+      onStrong: '#06231A',
+    },
+    inactive: {
+      surface: '#242426',
+      border: '#2C2C2E',
+      text: '#9E9E9E',
+      strong: '#9E9E9E',
+      onStrong: '#161618',
+    },
+  },
+  dataviz: {
+    categorical: ['#8B5CF6', '#38BDF8', '#4ADE80', '#FBBF24', '#FB7185', '#2DD4BF', '#F472B6', '#A3E635'],
+    sequential: ['#2E1065', '#4C1D95', '#6D28D9', '#A78BFA', '#C4B5FD', '#EDE9FE'],
+    grid: '#242426',
+    axis: '#3D3D3F',
+    axisText: '#9E9E9E',
   },
   gradient: {
     stripe: STRIPE_GRADIENT,

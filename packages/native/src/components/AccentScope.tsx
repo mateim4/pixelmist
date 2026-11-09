@@ -4,6 +4,7 @@
  */
 import { AccentScope as CoreAccentScope } from '@pixelmist/core';
 import type { AccentScopeProps } from '@pixelmist/core';
+import { forwardRef } from 'react';
 import { View } from 'react-native';
 
 /**
@@ -13,7 +14,7 @@ import { View } from 'react-native';
  * Native components will read from the AccentScope context via useAccentScope
  * and merge with the resolved theme.
  */
-export function AccentScope({
+export const AccentScope = forwardRef<View, AccentScopeProps>(function AccentScope({
   accentPrimary,
   accentPrimaryHover,
   accentPrimaryActive,
@@ -21,7 +22,7 @@ export function AccentScope({
   accentSoftHover,
   accentBorder,
   children,
-}: AccentScopeProps) {
+}: AccentScopeProps, ref) {
   return (
     <CoreAccentScope
       accentPrimary={accentPrimary}
@@ -31,10 +32,10 @@ export function AccentScope({
       accentSoftHover={accentSoftHover}
       accentBorder={accentBorder}
     >
-      <View>{children}</View>
+      <View ref={ref}>{children}</View>
     </CoreAccentScope>
   );
-}
+});
 
 // Re-export the hook for convenience
 export { useAccentScope } from '@pixelmist/core';

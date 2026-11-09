@@ -1,5 +1,7 @@
-import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { createContext, forwardRef, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import type { Ref } from 'react';
 import { Pressable, View } from 'react-native';
+import type { ViewProps } from 'react-native';
 import type { ReactNode } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import { space } from '../theme/helpers';
@@ -8,11 +10,19 @@ import { Icon } from './Icon';
 import type { IconName } from '@pixelmist/icons';
 
 export type ToastTone = 'neutral' | 'success' | 'info' | 'warning' | 'danger';
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
+}
 export interface ToastInput {
   title: ReactNode;
   description?: ReactNode;
   tone?: ToastTone;
   duration?: number;
+  /** Icon override (e.g. 'trophy' for achievements). */
+  icon?: IconName;
+  /** Optional action button. */
+  action?: ToastAction;
 }
 interface ToastItem extends ToastInput {
   id: number;
@@ -32,7 +42,7 @@ const toneIcon: Record<ToastTone, IconName> = {
 const toneColor = (t: any, tone: ToastTone): string =>
   tone === 'neutral' ? t.color.accent.primary : t.color.status[tone as 'success' | 'info' | 'warning' | 'danger'];
 
-export function ToastProvider({ children, max = 4 }: { children?: ReactNode; max?: number }) {
+export const ToastProvider = forwardRef<View, { children?: ReactNode; max?: number } & ViewProps>(function ToastProvider({ children, max = 4, ...rest }: { children?: ReactNode; max?: number } & ViewProps, ref: Ref<View>) {
   const { resolved: t } = useTheme();
   const [items, setItems] = useState<ToastItem[]>([]);
   const idRef = useRef(0);
@@ -59,6 +69,7 @@ export function ToastProvider({ children, max = 4 }: { children?: ReactNode; max
     <ToastContext.Provider value={value}>
       {children}
       <View
+        ref={ref}
         pointerEvents="box-none"
         style={{
           position: 'absolute',
@@ -71,6 +82,7 @@ export function ToastProvider({ children, max = 4 }: { children?: ReactNode; max
           elevation: 8,
         }}
         accessibilityLiveRegion="polite"
+        {...rest}
       >
         {items.map((item) => (
           <View
@@ -93,13 +105,20 @@ export function ToastProvider({ children, max = 4 }: { children?: ReactNode; max
               shadowOffset: { width: 0, height: 6 },
             }}
           >
-            <Icon name={toneIcon[item.tone ?? 'neutral']} size={16} color={toneColor(t, item.tone ?? 'neutral')} />
+            <Icon name={item.icon ?? toneIcon[item.tone ?? 'neutral']} size={16} color={toneColor(t, item.tone ?? 'neutral')} />
             <View style={{ flex: 1 }}>
               <Text variant="body-sm-medium">{item.title}</Text>
               {item.description ? (
                 <Text variant="caption" tone="muted">
                   {item.description}
                 </Text>
+              ) : null}
+              {item.action ? (
+                <Pressable accessibilityRole="button" onPress={item.action.onClick} hitSlop={8} style={{ minHeight: 24, alignSelf: 'flex-start' }}>
+                  <Text variant="caption" style={{ fontWeight: '600', color: t.color.accent.primary, textDecorationLine: 'underline' }}>
+                    {item.action.label}
+                  </Text>
+                </Pressable>
               ) : null}
             </View>
             <Pressable
@@ -117,7 +136,7 @@ export function ToastProvider({ children, max = 4 }: { children?: ReactNode; max
       </View>
     </ToastContext.Provider>
   );
-}
+});
 
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);

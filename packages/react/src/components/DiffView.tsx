@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import { cx } from '@pixelmist/core';
 
 export interface DiffLine {
@@ -5,15 +7,14 @@ export interface DiffLine {
   text: string;
 }
 
-export interface DiffViewProps {
+export interface DiffViewProps extends HTMLAttributes<HTMLDivElement> {
   lines: DiffLine[];
-  className?: string;
 }
 
 /** Minimal unified diff view with tinted add/del rows (mono, code surface). */
-export function DiffView({ lines, className }: DiffViewProps) {
+export const DiffView = forwardRef(function DiffView({ lines, className, ...rest }: DiffViewProps, ref: Ref<HTMLDivElement>) {
   return (
-    <div className={cx('pm-diff', className)}>
+    <div ref={ref} className={cx('pm-diff', className)} {...rest}>
       {lines.map((l, i) => (
         <div key={i} className={cx('pm-diff__line', `pm-diff__line--${l.type}`)}>
           <span className="pm-diff__sign" aria-hidden>
@@ -24,4 +25,4 @@ export function DiffView({ lines, className }: DiffViewProps) {
       ))}
     </div>
   );
-}
+});

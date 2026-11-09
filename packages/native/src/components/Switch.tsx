@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+import type { ElementRef } from 'react';
 import { Switch as RNSwitch } from 'react-native';
 import type { SwitchProps as RNSwitchProps } from 'react-native';
 import { useControllableState } from '@pixelmist/core';
@@ -10,11 +12,12 @@ export interface SwitchProps extends Omit<RNSwitchProps, 'value' | 'onValueChang
   label?: string;
 }
 
-export function Switch({ checked, defaultChecked = false, onCheckedChange, ...rest }: SwitchProps) {
+export const Switch = forwardRef<ElementRef<typeof RNSwitch>, SwitchProps>(function Switch({ checked, defaultChecked = false, onCheckedChange, ...rest }: SwitchProps, ref) {
   const { resolved: t } = useTheme();
   const [value, setValue] = useControllableState<boolean>(checked, defaultChecked, onCheckedChange);
   return (
     <RNSwitch
+      ref={ref}
       value={value}
       onValueChange={setValue}
       trackColor={{ false: t.color.border.strong, true: t.color.accent.primary }}
@@ -22,4 +25,4 @@ export function Switch({ checked, defaultChecked = false, onCheckedChange, ...re
       {...rest}
     />
   );
-}
+});

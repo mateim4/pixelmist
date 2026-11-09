@@ -26,9 +26,19 @@
 - Storybook for web; @testing-library/react-native for native; changesets + CI (GitHub Actions: build/typecheck/test)
 - Auto theme from `prefers-color-scheme` (opt-in `ThemeProvider` mode)
 
-## v0.3
+## v0.3 (done)
 
-- Icon expansion + Figma token export (tokens.json → Figma variables)
-- Theming API for product accents (override semantic accent per product area)
+- Semantic tones (attention/progress/settled/inactive × surface/border/text/strong/onStrong), dataviz tokens (8 categorical, 6 sequential, grid/axis), `motion.travel` multiplier (`--pm-motion-travel` → 0 under reduced motion), `status.onDanger`, terminal palette export (`@pixelmist/tokens/terminal.json` for ratatui)
+- Carbon-swap set on both renderers: Popover, Tooltip, InfoTip, InlineNotification, Tag/SelectableTag, Link, InlineLoading, PasswordInput, Search, ComboBox, DateInput, Disclosure, Table, AppShell (Header/SideNav/SkipToContent), Layer, Grid + upgrades to Button (ghost/tertiary/danger/dangerTertiary, icon-only+tooltip), TextField, Select (typed items), Checkbox (indeterminate), RadioGroup, TextArea (counter), Dialog (sizes/danger/passive/footer actions), Progress (pass-through fix, status), Tabs.Panel
+- Live views: ActivityMarker, AgentChip, HoverCard, Legend. Chat: Composer, Markdown, PermissionPrompt, PlanList, SessionListItem
+- 15 new icons (60 total); density web 32/40/48 (native md 44); outline focus ring that never animates
+- `@pixelmist/art`: tray icon set (brdcrmb mark, 4 states × light/dark × 16/22/24/32 PNG+SVG) + categorical-tinted agent avatars (pixel-forge)
+- MIT LICENSE; publishConfig → GitHub Packages (private); changesets v0.3.0; docs/CARBON-MIGRATION.md
+- 101 web tests + 34 native tests; Storybook stories for all new components; contrast gate extended and green
+- Gamification primitives (D3, owner-approved): `XPBar`, `LevelBadge`, `Streak`, `AchievementToast` + `useTweenedNumber` on both renderers; `flame`/`trophy`/`medal` icons (67 total)
+- Adversarial quality pass: forwardRef/pass-through completed on every component (web + native); ARIA fixes (Select/ComboBox activedescendant, RadioGroup arrows + labelling, AppShell menu/SideNav focus return + overlay containment, Dialog trap + full pass-through, Escape focus-return without reopen in Tooltip/HoverCard/InfoTip, InfoTip stays open over portaled content); motion-rule fixes (no box-shadow/width/top transitions, progress fill 200ms, skip link via transform, Disclosure fold animates via visibility, Grid base columns via CSS not inline style); 14 corrupted icon paths repaired; Progress `tone` prop removed (status drives tone)
+
+## v0.4 (next)
+
 - Visual regression (Chromatic/Playwright) on the playground
-- Publish packages (private registry or npm), semantic versioning via changesets
+- Publish to the owner's private GitHub repo (GitHub Packages) and wire brdcrmb's install

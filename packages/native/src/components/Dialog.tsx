@@ -1,22 +1,73 @@
-import { Modal, Pressable } from 'react-native';
-import type { ReactNode } from 'react';
+import { Modal, Pressable, View } from 'react-native';
+import type { ViewProps } from 'react-native';
+import { forwardRef } from 'react';
+import type { ReactNode, Ref } from 'react';
+import type { Size } from '@pixelmist/core';
 import { useTheme } from '../theme/ThemeProvider';
 import { space } from '../theme/helpers';
 import { Text } from './Text';
 import { Box } from './Box';
+import { Button } from './Button';
+import type { ButtonVariant } from './Button';
 
-export interface DialogProps {
+export interface DialogAction {
+  label: string;
+  onClick: () => void;
+  loading?: boolean;
+  variant?: ButtonVariant;
+}
+
+export interface DialogProps extends ViewProps {
   open: boolean;
   onOpenChange?: (open: boolean) => void;
   title?: ReactNode;
   description?: ReactNode;
   children?: ReactNode;
+  /** Custom footer (overrides primaryAction/secondaryAction). */
   actions?: ReactNode;
+  primaryAction?: DialogAction;
+  secondaryAction?: DialogAction;
+  /** Passive dialog: no footer. */
+  passive?: boolean;
+  /** Danger flavour: the primary action renders as a danger button. */
+  danger?: boolean;
+  size?: Size;
 }
 
-/** Native dialog via RN Modal (fade). */
-export function Dialog({ open, onOpenChange, title, description, children, actions }: DialogProps) {
+/** Native dialog via RN Modal (fade). Same API as web Dialog. */
+export const Dialog = forwardRef<View, DialogProps>(function Dialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  children,
+  actions,
+  primaryAction,
+  secondaryAction,
+  passive = false,
+  danger = false,
+  size = 'md',
+  ...rest
+}: DialogProps, ref: Ref<View>) {
   const { resolved: t } = useTheme();
+  const maxWidth = size === 'sm' ? 360 : size === 'lg' ? 720 : 480;
+  const footer =
+    actions !== undefined ? (
+      actions
+    ) : passive ? null : (
+      <>
+        {secondaryAction ? (
+          <Button variant="tertiary" onPress={secondaryAction.onClick}>
+            {secondaryAction.label}
+          </Button>
+        ) : null}
+        {primaryAction ? (
+          <Button variant={danger ? 'danger' : 'primary'} loading={primaryAction.loading} onPress={primaryAction.onClick}>
+            {primaryAction.label}
+          </Button>
+        ) : null}
+      </>
+    );
   return (
     <Modal visible={open} transparent animationType="fade" onRequestClose={() => onOpenChange?.(false)}>
       <Pressable
@@ -24,8 +75,10 @@ export function Dialog({ open, onOpenChange, title, description, children, actio
         onPress={() => onOpenChange?.(false)}
       >
         <Pressable
+          ref={ref}
           accessibilityViewIsModal
           accessibilityRole="alert"
+          accessibilityLabel={typeof title === 'string' ? title : undefined}
           style={{
             backgroundColor: t.color.bg.raised,
             borderRadius: t.radius.xl,
@@ -33,10 +86,18 @@ export function Dialog({ open, onOpenChange, title, description, children, actio
             borderColor: t.color.border.default,
             padding: space(t, 'xxl'),
             maxHeight: '85%',
+            width: '100%',
+            maxWidth,
+            alignSelf: 'center',
           }}
           onPress={(e) => e.stopPropagation()}
+          {...rest}
         >
-          {title ? <Text variant="heading-4">{title}</Text> : null}
+          {title ? (
+            <Text variant="heading-4" tone={danger ? 'danger' : 'default'}>
+              {title}
+            </Text>
+          ) : null}
           {description ? (
             <Box paddingY="xs">
               <Text variant="body-sm" tone="muted">
@@ -45,13 +106,13 @@ export function Dialog({ open, onOpenChange, title, description, children, actio
             </Box>
           ) : null}
           <Box style={{ marginBottom: space(t, 'lg') }}>{children}</Box>
-          {actions ? (
+          {footer ? (
             <Box direction="row" justify="flex-end" gap="sm">
-              {actions}
+              {footer}
             </Box>
           ) : null}
         </Pressable>
       </Pressable>
     </Modal>
   );
-}
+});

@@ -7,32 +7,54 @@ import { Icon } from './Icon';
 
 export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
+  /** Visually hide the label (still announced to AT). */
+  hideLabel?: boolean;
   hint?: string;
   error?: string;
+  /** Warning state with its own message (does not set aria-invalid). */
+  warning?: string;
   size?: Size;
   leftIcon?: IconName;
   rightIcon?: IconName;
 }
 
-/** 44px text input, 1px strong border, accent focus ring (Mistral focus state). */
+/**
+ * Text input. Density sm 32 / md 40 / lg 48 px tall. Accent focus ring.
+ * error → aria-invalid + role="alert" message; warning → warning-toned message;
+ * hint → helper text. All wired with aria-describedby.
+ */
 export const TextField = forwardRef(function TextField(
-  { label, hint, error, size = 'md', leftIcon, rightIcon, className, id, ...rest }: TextFieldProps,
+  { label, hideLabel = false, hint, error, warning, size = 'md', leftIcon, rightIcon, className, id, ...rest }: TextFieldProps,
   ref: Ref<HTMLInputElement>,
 ) {
   const autoId = useId();
   const inputId = id ?? autoId;
-  const hintId = `${inputId}-hint`;
+  const msgId = `${inputId}-msg`;
   const hasError = Boolean(error);
+  const hasWarning = !hasError && Boolean(warning);
+  const message = hasError ? error : hasWarning ? warning : hint;
+  if (!label && !rest['aria-label'] && !rest['aria-labelledby']) {
+    // An unlabeled input is unusable — fail loudly in dev.
+    console.warn('pixelmist TextField: provide `label` (or aria-label/aria-labelledby) for an accessible name.');
+  }
   return (
-    <div className={cx('pm-field', `pm-field--${size}`, hasError && 'pm-field--error', className)}>
+    <div
+      className={cx(
+        'pm-field',
+        `pm-field--${size}`,
+        hasError && 'pm-field--error',
+        hasWarning && 'pm-field--warning',
+        className,
+      )}
+    >
       {label ? (
-        <label className="pm-field__label" htmlFor={inputId}>
+        <label className={cx('pm-field__label', hideLabel && 'pm-sr-only')} htmlFor={inputId}>
           {label}
         </label>
       ) : null}
       <div className="pm-field__control">
         {leftIcon ? (
-          <span className="pm-field__icon pm-field__icon--left">
+          <span className="pm-field__icon pm-field__icon--left" aria-hidden>
             <Icon name={leftIcon} size={16} />
           </span>
         ) : null}
@@ -45,22 +67,22 @@ export const TextField = forwardRef(function TextField(
             rightIcon && 'pm-field__input--right-icon',
           )}
           aria-invalid={hasError || undefined}
-          aria-describedby={hasError || hint ? hintId : undefined}
+          aria-describedby={message ? msgId : undefined}
           {...rest}
         />
         {rightIcon ? (
-          <span className="pm-field__icon pm-field__icon--right">
+          <span className="pm-field__icon pm-field__icon--right" aria-hidden>
             <Icon name={rightIcon} size={16} />
           </span>
         ) : null}
       </div>
-      {hasError ? (
-        <p className="pm-field__message pm-field__message--error" id={hintId} role="alert">
-          {error}
-        </p>
-      ) : hint ? (
-        <p className="pm-field__message" id={hintId}>
-          {hint}
+      {message ? (
+        <p
+          className={cx('pm-field__message', hasError && 'pm-field__message--error', hasWarning && 'pm-field__message--warning')}
+          id={msgId}
+          role={hasError ? 'alert' : undefined}
+        >
+          {message}
         </p>
       ) : null}
     </div>

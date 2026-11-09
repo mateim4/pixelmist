@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { View } from 'react-native';
 import type { ViewProps } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
@@ -13,7 +14,7 @@ export interface BadgeProps extends ViewProps {
   children?: string;
 }
 
-export function Badge({ variant = 'accent', tone = 'neutral', style, children, ...rest }: BadgeProps) {
+export const Badge = forwardRef<View, BadgeProps>(function Badge({ variant = 'accent', tone = 'neutral', style, children, ...rest }: BadgeProps, ref) {
   const { resolved: t } = useTheme();
   const v = asTokens(asTokens(t.components.badge)[variant] ?? {});
   let bg = v.bg as string;
@@ -24,6 +25,7 @@ export function Badge({ variant = 'accent', tone = 'neutral', style, children, .
   }
   return (
     <View
+      ref={ref}
       style={[
         {
           flexDirection: 'row',
@@ -45,4 +47,4 @@ export function Badge({ variant = 'accent', tone = 'neutral', style, children, .
       </Text>
     </View>
   );
-}
+});

@@ -3,7 +3,8 @@
  * Provides per-product accent color theming for a subtree of components.
  */
 import { AccentScope as CoreAccentScope, type AccentScopeProps } from '@pixelmist/core';
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 
 /**
  * AccentScope for web platform. Wraps the core AccentScope with CSS custom property
@@ -12,8 +13,8 @@ import { useMemo } from 'react';
  * This component sets CSS custom properties on a wrapper element that override
  * the theme's accent color variables within the scope.
  */
-export function AccentScope(props: AccentScopeProps) {
-  const { accentPrimary, accentPrimaryHover, accentPrimaryActive, accentSoft, accentSoftHover, accentBorder } = props;
+export const AccentScope = forwardRef(function AccentScope(props: AccentScopeProps & HTMLAttributes<HTMLDivElement>, ref: Ref<HTMLDivElement>) {
+  const { accentPrimary, accentPrimaryHover, accentPrimaryActive, accentSoft, accentSoftHover, accentBorder, ...rest } = props;
   
   // Build inline style with CSS custom property overrides
   const style = useMemo(() => {
@@ -29,10 +30,12 @@ export function AccentScope(props: AccentScopeProps) {
 
   return (
     <div
+      ref={ref}
       data-pm-accent-scope={Object.values({ accentPrimary, accentPrimaryHover, accentPrimaryActive, accentSoft, accentSoftHover, accentBorder }).some(Boolean) ? 'true' : undefined}
       style={style}
+      {...rest}
     >
       <CoreAccentScope {...props} />
     </div>
   );
-}
+});

@@ -1,6 +1,6 @@
 import { createContext, useContext, forwardRef, useRef, useState, useEffect, useCallback } from 'react';
 import type { ButtonHTMLAttributes, HTMLAttributes, KeyboardEvent, ReactNode, Ref } from 'react';
-import { cx, useControllableState } from '@pixelmist/core';
+import { cx, useControllableState, useId } from '@pixelmist/core';
 
 export type TabsVariant = 'pill' | 'underline';
 
@@ -10,6 +10,7 @@ interface TabsContextValue {
   setValue: (v: string) => void;
   tabRefs: React.MutableRefObject<Map<string, HTMLButtonElement | null>>;
   registerTab: (value: string, el: HTMLButtonElement | null) => void;
+  rootId: string;
 }
 const TabsContext = createContext<TabsContextValue | null>(null);
 
@@ -21,34 +22,38 @@ export interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChang
   children?: ReactNode;
 }
 
-function TabsRoot({
-  variant = 'pill',
-  value,
-  defaultValue = '',
-  onValueChange,
-  className,
-  children,
-  ...rest
-}: TabsProps) {
+const TabsRoot = forwardRef(function TabsRoot(
+  {
+    variant = 'pill',
+    value,
+    defaultValue = '',
+    onValueChange,
+    className,
+    children,
+    ...rest
+  }: TabsProps,
+  ref: Ref<HTMLDivElement>,
+) {
   const [current, setCurrent] = useControllableState<string>(value, defaultValue, onValueChange);
   const tabRefs = useRef<Map<string, HTMLButtonElement | null>>(new Map());
+  const rootId = useId();
   const registerTab = useCallback((v: string, el: HTMLButtonElement | null) => {
     if (el) tabRefs.current.set(v, el);
     else tabRefs.current.delete(v);
   }, []);
   return (
-    <TabsContext.Provider value={{ variant, value: current, setValue: setCurrent, tabRefs, registerTab }}>
-      <div className={cx('pm-tabs', className)} {...rest}>
+    <TabsContext.Provider value={{ variant, value: current, setValue: setCurrent, tabRefs, registerTab, rootId }}>
+      <div ref={ref} className={cx('pm-tabs', className)} {...rest}>
         {children}
       </div>
     </TabsContext.Provider>
   );
-}
+});
 
 export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
-function TabsList({ className, children, onKeyDown, ...rest }: TabsListProps) {
+const TabsList = forwardRef(function TabsList({ className, children, onKeyDown, ...rest }: TabsListProps, ref: Ref<HTMLDivElement>) {
   const ctx = useContext(TabsContext);
   const variant = ctx?.variant ?? 'pill';
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
@@ -91,6 +96,7 @@ function TabsList({ className, children, onKeyDown, ...rest }: TabsListProps) {
 
   return (
     <div
+      ref={ref}
       role="tablist"
       className={cx('pm-tabs__list', `pm-tabs__list--${variant}`, className)}
       onKeyDown={onKey}
@@ -100,24 +106,28 @@ function TabsList({ className, children, onKeyDown, ...rest }: TabsListProps) {
       {variant === 'underline' && indicator ? (
         <span
           className="pm-tabs__indicator"
-          style={{ transform: `translateX(${indicator.left}px)`, width: indicator.width }}
+          style={{
+            transform: `translateX(calc(var(--pm-motion-travel) * ${indicator.left}px))`,
+            width: indicator.width,
+          }}
           aria-hidden
         />
       ) : null}
     </div>
   );
-}
+});
 
 export interface TabsTabProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'value'> {
   value: string;
 }
 const TabsTab = forwardRef(function TabsTab(
-  { value, className, onClick, ...rest }: TabsTabProps,
+  { value, className, onClick, id, ...rest }: TabsTabProps,
   ref: Ref<HTMLButtonElement>,
 ) {
   const ctx = useContext(TabsContext);
   if (!ctx) throw new Error('Tabs.Tab must be used inside <Tabs>');
   const selected = ctx.value === value;
+  const tabId = id ?? `${ctx.rootId}-tab-${value}`;
   return (
     <button
       ref={(el) => {
@@ -127,6 +137,8 @@ const TabsTab = forwardRef(function TabsTab(
       }}
       type="button"
       role="tab"
+      id={tabId}
+      aria-controls={`${ctx.rootId}-panel-${value}`}
       tabIndex={selected ? 0 : -1}
       aria-selected={selected}
       className={cx('pm-tab', `pm-tab--${ctx.variant}`, selected && 'is-selected', className)}
@@ -139,4 +151,28 @@ const TabsTab = forwardRef(function TabsTab(
   );
 });
 
-export const Tabs = Object.assign(TabsRoot, { List: TabsList, Tab: TabsTab });
+export interface TabsPanelProps extends HTMLAttributes<HTMLDivElement> {
+  value: string;
+}
+/** Tab panel: role="tabpanel", labelled by its tab, hidden when not selected. */
+const TabsPanel = forwardRef(function TabsPanel({ value, className, children, ...rest }: TabsPanelProps, ref: Ref<HTMLDivElement>) {
+  const ctx = useContext(TabsContext);
+  if (!ctx) throw new Error('Tabs.Panel must be used inside <Tabs>');
+  const selected = ctx.value === value;
+  return (
+    <div
+      ref={ref}
+      role="tabpanel"
+      id={`${ctx.rootId}-panel-${value}`}
+      aria-labelledby={`${ctx.rootId}-tab-${value}`}
+      tabIndex={0}
+      hidden={!selected}
+      className={cx('pm-tabs__panel', className)}
+      {...rest}
+    >
+      {selected ? children : null}
+    </div>
+  );
+});
+
+export const Tabs = Object.assign(TabsRoot, { List: TabsList, Tab: TabsTab, Panel: TabsPanel });

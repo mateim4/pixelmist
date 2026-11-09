@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import type { HTMLAttributes, KeyboardEvent, Ref } from 'react';
+import type { Size } from '@pixelmist/core';
 import { cx, useControllableState, useId } from '@pixelmist/core';
 import { Icon } from './Icon';
 
@@ -9,30 +10,53 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps<T = SelectOption> extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: string;
   defaultValue?: string;
   onValueChange?: (v: string) => void;
-  options: SelectOption[];
+  /** Simple options (label/value). Prefer `items` + `itemToString` for typed data. */
+  options?: SelectOption[];
+  /** Typed items API. */
+  items?: T[];
+  itemToString?: (item: T) => string;
+  itemToValue?: (item: T) => string;
   placeholder?: string;
   label?: string;
+  hideLabel?: boolean;
+  hint?: string;
   error?: string;
+  warning?: string;
+  size?: Size;
   disabled?: boolean;
-  className?: string;
 }
 
-/** Custom dropdown select (no native <select> styling fights). Keyboard: arrows/enter/escape. */
-export function Select({
-  value,
-  defaultValue,
-  onValueChange,
-  options,
-  placeholder = 'Select…',
-  label,
-  error,
-  disabled,
-  className,
-}: SelectProps) {
+/**
+ * Custom listbox select. Keyboard: arrows/enter/escape/home/end. Controlled or
+ * uncontrolled. Typed `items` + `itemToString` API alongside `options`.
+ */
+function SelectInner<T = SelectOption>(
+  {
+    value,
+    defaultValue,
+    onValueChange,
+    options,
+    items,
+    itemToString,
+    itemToValue,
+    placeholder = 'Select…',
+    label,
+    hideLabel = false,
+    hint,
+    error,
+    warning,
+    size = 'md',
+    disabled,
+    className,
+    id,
+    ...rest
+  }: SelectProps<T>,
+  ref: Ref<HTMLDivElement>,
+) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [current, setCurrent] = useControllableState<string | undefined>(
@@ -40,10 +64,26 @@ export function Select({
     defaultValue,
     onValueChange ? (v) => onValueChange(v as string) : undefined,
   );
-  const rootRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const id = useId();
-  const selected = options.find((o) => o.value === current);
+  const autoId = useId();
+  const rootId = id ?? autoId;
+  const msgId = `${rootId}-msg`;
+  const listId = `${rootId}-list`;
+
+  const opts: SelectOption[] = useMemo(
+    () =>
+      options ??
+      (items ?? []).map((item) => ({
+        value: itemToValue ? itemToValue(item) : itemToString!(item),
+        label: itemToString!(item),
+      })),
+    [options, items, itemToString, itemToValue],
+  );
+  const selected = opts.find((o) => o.value === current);
+  const hasError = Boolean(error);
+  const hasWarning = !hasError && Boolean(warning);
+  const message = hasError ? error : hasWarning ? warning : hint;
 
   useEffect(() => {
     if (!open) return;
@@ -55,14 +95,8 @@ export function Select({
   }, [open]);
 
   useEffect(() => {
-    if (open)
-      setActive(
-        Math.max(
-          0,
-          options.findIndex((o) => o.value === current),
-        ),
-      );
-  }, [open, options, current]);
+    if (open) setActive(Math.max(0, opts.findIndex((o) => o.value === current)));
+  }, [open, opts, current]);
 
   useEffect(() => {
     if (open) listRef.current?.querySelector('[aria-selected="true"]')?.scrollIntoView?.({ block: 'nearest' });
@@ -70,7 +104,7 @@ export function Select({
 
   const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
-    if (!open && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown')) {
+    if (!open && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
       e.preventDefault();
       setOpen(true);
       return;
@@ -81,13 +115,19 @@ export function Select({
       setOpen(false);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActive((a) => Math.min(a + 1, options.length - 1));
+      setActive((a) => Math.min(a + 1, opts.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive((a) => Math.max(a - 1, 0));
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      setActive(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      setActive(opts.length - 1);
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      const opt = options[active];
+      const opt = opts[active];
       if (opt && !opt.disabled) {
         setCurrent(opt.value);
         setOpen(false);
@@ -96,19 +136,31 @@ export function Select({
   };
 
   return (
-    <div className={cx('pm-field', className)} ref={rootRef}>
+    <div
+      ref={(el) => {
+        rootRef.current = el;
+        if (typeof ref === 'function') ref(el);
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      }}
+      className={cx('pm-field', `pm-field--${size}`, hasError && 'pm-field--error', hasWarning && 'pm-field--warning', className)}
+      id={rootId}
+      {...rest}
+    >
       {label ? (
-        <span className="pm-field__label" id={`${id}-label`}>
+        <span className={cx('pm-field__label', hideLabel && 'pm-sr-only')} id={`${rootId}-label`}>
           {label}
         </span>
       ) : null}
       <button
         type="button"
-        className={cx('pm-select__trigger', open && 'is-open', error && 'pm-field--error')}
+        className={cx('pm-select__trigger', open && 'is-open')}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-labelledby={label ? `${id}-label` : undefined}
-        aria-invalid={Boolean(error) || undefined}
+        aria-controls={open ? listId : undefined}
+        aria-activedescendant={open && opts[active] ? `${rootId}-opt-${active}` : undefined}
+        aria-labelledby={label ? `${rootId}-label` : undefined}
+        aria-invalid={hasError || undefined}
+        aria-describedby={message ? msgId : undefined}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
         onKeyDown={onKey}
@@ -116,27 +168,33 @@ export function Select({
         <span className={cx('pm-select__value', !selected && 'is-placeholder')}>{selected?.label ?? placeholder}</span>
         <Icon name="chevron-down" size={16} className={cx('pm-select__chevron', open && 'is-open')} />
       </button>
-      {error ? (
-        <p className="pm-field__message pm-field__message--error" role="alert">
-          {error}
+      {message ? (
+        <p
+          className={cx('pm-field__message', hasError && 'pm-field__message--error', hasWarning && 'pm-field__message--warning')}
+          id={msgId}
+          role={hasError ? 'alert' : undefined}
+        >
+          {message}
         </p>
       ) : null}
       {open ? (
         <div
           className="pm-select__list"
           role="listbox"
+          id={listId}
           ref={listRef}
-          aria-activedescendant={options[active] ? `${id}-opt-${active}` : undefined}
+          aria-labelledby={label ? `${rootId}-label` : undefined}
         >
-          {options.map((opt, i) => (
-            <button
+          {opts.map((opt, i) => (
+            // options are not focusable: focus stays on the trigger, which owns
+            // aria-activedescendant (APG listbox pattern)
+            <div
               key={opt.value}
-              id={`${id}-opt-${i}`}
-              type="button"
+              id={`${rootId}-opt-${i}`}
               role="option"
               aria-selected={opt.value === current}
+              aria-disabled={opt.disabled || undefined}
               className={cx('pm-select__option', i === active && 'is-active', opt.value === current && 'is-selected')}
-              disabled={opt.disabled}
               onMouseEnter={() => setActive(i)}
               onClick={() => {
                 if (!opt.disabled) {
@@ -147,10 +205,15 @@ export function Select({
             >
               {opt.label}
               {opt.value === current ? <Icon name="check" size={14} /> : null}
-            </button>
+            </div>
           ))}
         </div>
       ) : null}
     </div>
   );
 }
+
+/** forwardRef erases generics — re-expose the typed signature. */
+export const Select = forwardRef(SelectInner) as <T = SelectOption>(
+  props: SelectProps<T> & { ref?: Ref<HTMLDivElement> },
+) => React.ReactElement;

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { View } from 'react-native';
 import type { ViewProps } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
@@ -11,10 +12,11 @@ export interface CodeBlockProps extends ViewProps {
 }
 
 /** Dark terminal panel (#1C1C1E) with header — the Vibe look, on native. */
-export function CodeBlock({ title, code, children, style, ...rest }: CodeBlockProps) {
+export const CodeBlock = forwardRef<View, CodeBlockProps>(function CodeBlock({ title, code, children, style, ...rest }: CodeBlockProps, ref) {
   const { resolved: t } = useTheme();
   return (
     <View
+      ref={ref}
       style={[
         {
           backgroundColor: t.color.bg.code,
@@ -51,4 +53,4 @@ export function CodeBlock({ title, code, children, style, ...rest }: CodeBlockPr
       </View>
     </View>
   );
-}
+});

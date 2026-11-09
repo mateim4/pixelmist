@@ -40,6 +40,12 @@ export const elevation = {
 
 export const motion = {
   duration: { instant: 80, fast: 120, normal: 200, slow: 320 },
+  /**
+   * Travel multiplier for transform-based motion. 1 normally; 0 under
+   * prefers-reduced-motion, so fades (opacity) stay but travel (translate/scale
+   * distance) collapses. Components apply it as calc(var(--pm-motion-travel) * Npx).
+   */
+  travel: 1,
   easing: {
     standard: 'cubic-bezier(0.2, 0, 0, 1)',
     emphasized: 'cubic-bezier(0.32, 0.72, 0, 1)',

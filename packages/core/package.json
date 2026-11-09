@@ -1,6 +1,6 @@
 {
   "name": "@pixelmist/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Platform-agnostic core: utilities, hooks and types shared by @pixelmist/react and @pixelmist/native. No DOM, no react-native imports.",
   "type": "module",
   "main": "./dist/index.js",
@@ -31,6 +31,7 @@
   },
   "sideEffects": false,
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "restricted"
   }
 }

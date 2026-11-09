@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { View } from 'react-native';
 import type { ViewProps } from 'react-native';
 import type { IconName } from '@pixelmist/icons';
@@ -10,10 +11,11 @@ export interface IconTileProps extends ViewProps {
   label?: string;
 }
 
-export function IconTile({ icon, label, style, ...rest }: IconTileProps) {
+export const IconTile = forwardRef<View, IconTileProps>(function IconTile({ icon, label, style, ...rest }: IconTileProps, ref) {
   const { resolved: t } = useTheme();
   return (
     <View
+      ref={ref}
       accessibilityLabel={label}
       style={[
         {
@@ -33,4 +35,4 @@ export function IconTile({ icon, label, style, ...rest }: IconTileProps) {
       <Icon name={icon} size={20} color={t.color.accent.primary} />
     </View>
   );
-}
+});

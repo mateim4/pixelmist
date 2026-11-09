@@ -4,22 +4,29 @@ import { cx, useId } from '@pixelmist/core';
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  hideLabel?: boolean;
   hint?: string;
   error?: string;
+  warning?: string;
+  /** Show a character counter against maxLength. */
+  showCount?: boolean;
 }
 
 export const TextArea = forwardRef(function TextArea(
-  { label, hint, error, className, id, ...rest }: TextAreaProps,
+  { label, hideLabel = false, hint, error, warning, showCount = false, maxLength, className, id, value, defaultValue, ...rest }: TextAreaProps,
   ref: Ref<HTMLTextAreaElement>,
 ) {
   const autoId = useId();
   const inputId = id ?? autoId;
-  const hintId = `${inputId}-hint`;
+  const msgId = `${inputId}-msg`;
   const hasError = Boolean(error);
+  const hasWarning = !hasError && Boolean(warning);
+  const message = hasError ? error : hasWarning ? warning : hint;
+  const len = (typeof value === 'string' ? value.length : typeof defaultValue === 'string' ? defaultValue.length : 0);
   return (
-    <div className={cx('pm-field', hasError && 'pm-field--error', className)}>
+    <div className={cx('pm-field', hasError && 'pm-field--error', hasWarning && 'pm-field--warning', className)}>
       {label ? (
-        <label className="pm-field__label" htmlFor={inputId}>
+        <label className={cx('pm-field__label', hideLabel && 'pm-sr-only')} htmlFor={inputId}>
           {label}
         </label>
       ) : null}
@@ -28,18 +35,28 @@ export const TextArea = forwardRef(function TextArea(
         id={inputId}
         className="pm-field__input pm-field__textarea"
         aria-invalid={hasError || undefined}
-        aria-describedby={hasError || hint ? hintId : undefined}
+        aria-describedby={message ? msgId : undefined}
+        maxLength={maxLength}
+        value={value}
+        defaultValue={defaultValue}
         {...rest}
       />
-      {hasError ? (
-        <p className="pm-field__message pm-field__message--error" id={hintId} role="alert">
-          {error}
-        </p>
-      ) : hint ? (
-        <p className="pm-field__message" id={hintId}>
-          {hint}
-        </p>
-      ) : null}
+      <div className="pm-field__footer">
+        {message ? (
+          <p
+            className={cx('pm-field__message', hasError && 'pm-field__message--error', hasWarning && 'pm-field__message--warning')}
+            id={msgId}
+            role={hasError ? 'alert' : undefined}
+          >
+            {message}
+          </p>
+        ) : null}
+        {showCount && maxLength ? (
+          <span className="pm-field__count" aria-hidden>
+            {len}/{maxLength}
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 });

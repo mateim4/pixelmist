@@ -1,4 +1,5 @@
-import type { HTMLAttributes } from 'react';
+import { forwardRef } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import type { IconName } from '@pixelmist/icons';
 import { cx } from '@pixelmist/core';
 import { Icon } from './Icon';
@@ -9,11 +10,14 @@ export interface IconTileProps extends HTMLAttributes<HTMLSpanElement> {
   label?: string;
 }
 
-/** Cream feature-icon tile (Mistral docs pattern). */
-export function IconTile({ icon, label, className, ...rest }: IconTileProps) {
+/** Cream feature-icon tile (Mistral docs pattern). forwardRef + pass-through. */
+export const IconTile = forwardRef(function IconTile(
+  { icon, label, className, ...rest }: IconTileProps,
+  ref: Ref<HTMLSpanElement>,
+) {
   return (
-    <span className={cx('pm-icon-tile', className)} {...rest}>
+    <span ref={ref} className={cx('pm-icon-tile', className)} {...rest}>
       <Icon name={icon} size={20} title={label} />
     </span>
   );
-}
+});

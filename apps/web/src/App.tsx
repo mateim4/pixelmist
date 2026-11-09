@@ -13,6 +13,10 @@ import {
   IconTile,
   Message,
   Progress,
+  XPBar,
+  LevelBadge,
+  Streak,
+  AchievementToast,
   Radio,
   RadioGroup,
   Select,
@@ -290,11 +294,18 @@ function GamifiedSection() {
             <Box display="flex" align="center" justify="space-between">
               <Box display="flex" align="center" gap="sm">
                 <IconTile icon="sparkle" label="Level" />
-                <Text variant="heading-5">Level 4 — Agent</Text>
+                <Text variant="heading-5">Agent</Text>
+                <LevelBadge level={4} />
               </Box>
-              <Badge variant="accent">streak x7</Badge>
+              <Streak days={7} />
             </Box>
-            <Progress value={xp} label={`XP — ${xp}/100`} showValue tone={xp >= 100 ? 'success' : 'accent'} />
+            <XPBar value={xp} max={100} level={4} hint="Complete quests to fill the bar" />
+            <AchievementToast
+              title="Quest complete"
+              description="The XP bar filled — level up!"
+              duration={0}
+              icon="trophy"
+            />
             <Text variant="body-sm" tone="muted">
               Complete quests to fill the bar. Hover cards lift; everything transitions.
             </Text>

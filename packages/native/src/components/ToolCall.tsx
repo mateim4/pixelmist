@@ -1,4 +1,6 @@
 import { ActivityIndicator, View } from 'react-native';
+import type { ViewProps } from 'react-native';
+import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import { space } from '../theme/helpers';
@@ -9,7 +11,7 @@ import { Box, Stack } from './Box';
 import { Text } from './Text';
 
 export type ToolCallStatus = 'pending' | 'running' | 'success' | 'error';
-export interface ToolCallProps {
+export interface ToolCallProps extends ViewProps {
   name: string;
   status: ToolCallStatus;
   args?: string;
@@ -24,11 +26,12 @@ const statusTone: Record<ToolCallStatus, BadgeTone> = {
   error: 'danger',
 };
 
-export function ToolCall({ name, status, args, result, children }: ToolCallProps) {
+export const ToolCall = forwardRef<View, ToolCallProps>(function ToolCall({ name, status, args, result, children, style, ...rest }: ToolCallProps, ref) {
   const { resolved: t } = useTheme();
   return (
     <View
-      style={{
+      ref={ref}
+      style={[{
         backgroundColor: t.color.bg.code,
         borderRadius: t.radius.lg,
         padding: space(t, 'md'),
@@ -37,7 +40,8 @@ export function ToolCall({ name, status, args, result, children }: ToolCallProps
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 4 },
-      }}
+      }, style]}
+      {...rest}
     >
       <Box
         direction="row"
@@ -77,4 +81,4 @@ export function ToolCall({ name, status, args, result, children }: ToolCallProps
       </Stack>
     </View>
   );
-}
+});

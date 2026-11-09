@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import type { HTMLAttributes, KeyboardEvent, Ref } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '@pixelmist/core';
 import type { IconName } from '@pixelmist/icons';
@@ -15,7 +15,7 @@ export interface CommandItem {
   onSelect?: () => void;
 }
 
-export interface CommandProps {
+export interface CommandProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   open: boolean;
   onOpenChange?: (open: boolean) => void;
   items: CommandItem[];
@@ -25,7 +25,7 @@ export interface CommandProps {
 }
 
 /** ⌘K command palette — the harness launcher. */
-export function Command({ open, onOpenChange, items, placeholder = 'Type a command…', hotkey = true }: CommandProps) {
+export const Command = forwardRef(function Command({ open, onOpenChange, items, placeholder = 'Type a command…', hotkey = true, className, ...rest }: CommandProps, ref: Ref<HTMLDivElement>) {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const [closing, setClosing] = useState(false);
@@ -112,10 +112,12 @@ export function Command({ open, onOpenChange, items, placeholder = 'Type a comma
       }}
     >
       <div
-        className={cx('pm-command', closing && 'is-closing')}
+        ref={ref}
+        className={cx('pm-command', closing && 'is-closing', className)}
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
+        {...rest}
       >
         <div className="pm-command__input-row">
           <Icon name="search" size={16} />
@@ -165,4 +167,4 @@ export function Command({ open, onOpenChange, items, placeholder = 'Type a comma
     </div>,
     document.body,
   );
-}
+});

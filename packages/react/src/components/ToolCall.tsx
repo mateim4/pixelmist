@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { forwardRef } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cx } from '@pixelmist/core';
 import { Badge } from './Badge';
 import type { BadgeTone } from './Badge';
@@ -8,14 +9,13 @@ import { Text } from './Text';
 
 export type ToolCallStatus = 'pending' | 'running' | 'success' | 'error';
 
-export interface ToolCallProps {
+export interface ToolCallProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
   status: ToolCallStatus;
   /** Serialized args shown in the code area. */
   args?: string;
   result?: string;
   children?: ReactNode;
-  className?: string;
 }
 
 const statusTone: Record<ToolCallStatus, BadgeTone> = {
@@ -26,9 +26,9 @@ const statusTone: Record<ToolCallStatus, BadgeTone> = {
 };
 
 /** A harness tool invocation card: header with live status badge + args/result code. */
-export function ToolCall({ name, status, args, result, children, className }: ToolCallProps) {
+export const ToolCall = forwardRef(function ToolCall({ name, status, args, result, children, className, ...rest }: ToolCallProps, ref: Ref<HTMLDivElement>) {
   return (
-    <div className={cx('pm-toolcall', className)} data-status={status}>
+    <div ref={ref} className={cx('pm-toolcall', className)} data-status={status} {...rest}>
       <Box display="flex" align="center" gap="sm" className="pm-toolcall__header">
         {status === 'running' ? <span className="pm-btn__spinner" aria-hidden /> : <Icon name="terminal" size={16} />}
         <Text variant="body-sm-medium" className="pm-toolcall__name">
@@ -53,4 +53,4 @@ export function ToolCall({ name, status, args, result, children, className }: To
       </Stack>
     </div>
   );
-}
+});

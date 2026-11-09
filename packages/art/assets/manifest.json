@@ -1,0 +1,138 @@
+{
+  "tray": {
+    "idle-light": {
+      "svg": "tray/brdcrmb-idle-light.svg",
+      "monoSvg": "tray/brdcrmb-idle-light.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-idle-light-16.png",
+        "22": "tray/brdcrmb-idle-light-22.png",
+        "24": "tray/brdcrmb-idle-light-24.png",
+        "32": "tray/brdcrmb-idle-light-32.png"
+      }
+    },
+    "idle-dark": {
+      "svg": "tray/brdcrmb-idle-dark.svg",
+      "monoSvg": "tray/brdcrmb-idle-dark.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-idle-dark-16.png",
+        "22": "tray/brdcrmb-idle-dark-22.png",
+        "24": "tray/brdcrmb-idle-dark-24.png",
+        "32": "tray/brdcrmb-idle-dark-32.png"
+      }
+    },
+    "working-light": {
+      "svg": "tray/brdcrmb-working-light.svg",
+      "monoSvg": "tray/brdcrmb-working-light.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-working-light-16.png",
+        "22": "tray/brdcrmb-working-light-22.png",
+        "24": "tray/brdcrmb-working-light-24.png",
+        "32": "tray/brdcrmb-working-light-32.png"
+      }
+    },
+    "working-dark": {
+      "svg": "tray/brdcrmb-working-dark.svg",
+      "monoSvg": "tray/brdcrmb-working-dark.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-working-dark-16.png",
+        "22": "tray/brdcrmb-working-dark-22.png",
+        "24": "tray/brdcrmb-working-dark-24.png",
+        "32": "tray/brdcrmb-working-dark-32.png"
+      }
+    },
+    "needs-attention-light": {
+      "svg": "tray/brdcrmb-needs-attention-light.svg",
+      "monoSvg": "tray/brdcrmb-needs-attention-light.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-needs-attention-light-16.png",
+        "22": "tray/brdcrmb-needs-attention-light-22.png",
+        "24": "tray/brdcrmb-needs-attention-light-24.png",
+        "32": "tray/brdcrmb-needs-attention-light-32.png"
+      }
+    },
+    "needs-attention-dark": {
+      "svg": "tray/brdcrmb-needs-attention-dark.svg",
+      "monoSvg": "tray/brdcrmb-needs-attention-dark.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-needs-attention-dark-16.png",
+        "22": "tray/brdcrmb-needs-attention-dark-22.png",
+        "24": "tray/brdcrmb-needs-attention-dark-24.png",
+        "32": "tray/brdcrmb-needs-attention-dark-32.png"
+      }
+    },
+    "stopped-light": {
+      "svg": "tray/brdcrmb-stopped-light.svg",
+      "monoSvg": "tray/brdcrmb-stopped-light.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-stopped-light-16.png",
+        "22": "tray/brdcrmb-stopped-light-22.png",
+        "24": "tray/brdcrmb-stopped-light-24.png",
+        "32": "tray/brdcrmb-stopped-light-32.png"
+      }
+    },
+    "stopped-dark": {
+      "svg": "tray/brdcrmb-stopped-dark.svg",
+      "monoSvg": "tray/brdcrmb-stopped-dark.mono.svg",
+      "png": {
+        "16": "tray/brdcrmb-stopped-dark-16.png",
+        "22": "tray/brdcrmb-stopped-dark-22.png",
+        "24": "tray/brdcrmb-stopped-dark-24.png",
+        "32": "tray/brdcrmb-stopped-dark-32.png"
+      }
+    }
+  },
+  "avatars": {
+    "beetle": {
+      "svg": "avatars/beetle.svg",
+      "tints": {
+        "0": "avatars/beetle-0.png",
+        "1": "avatars/beetle-1.png",
+        "2": "avatars/beetle-2.png",
+        "3": "avatars/beetle-3.png",
+        "4": "avatars/beetle-4.png",
+        "5": "avatars/beetle-5.png",
+        "6": "avatars/beetle-6.png",
+        "7": "avatars/beetle-7.png"
+      }
+    },
+    "moth": {
+      "svg": "avatars/moth.svg",
+      "tints": {
+        "0": "avatars/moth-0.png",
+        "1": "avatars/moth-1.png",
+        "2": "avatars/moth-2.png",
+        "3": "avatars/moth-3.png",
+        "4": "avatars/moth-4.png",
+        "5": "avatars/moth-5.png",
+        "6": "avatars/moth-6.png",
+        "7": "avatars/moth-7.png"
+      }
+    },
+    "frog": {
+      "svg": "avatars/frog.svg",
+      "tints": {
+        "0": "avatars/frog-0.png",
+        "1": "avatars/frog-1.png",
+        "2": "avatars/frog-2.png",
+        "3": "avatars/frog-3.png",
+        "4": "avatars/frog-4.png",
+        "5": "avatars/frog-5.png",
+        "6": "avatars/frog-6.png",
+        "7": "avatars/frog-7.png"
+      }
+    },
+    "sparrow": {
+      "svg": "avatars/sparrow.svg",
+      "tints": {
+        "0": "avatars/sparrow-0.png",
+        "1": "avatars/sparrow-1.png",
+        "2": "avatars/sparrow-2.png",
+        "3": "avatars/sparrow-3.png",
+        "4": "avatars/sparrow-4.png",
+        "5": "avatars/sparrow-5.png",
+        "6": "avatars/sparrow-6.png",
+        "7": "avatars/sparrow-7.png"
+      }
+    }
+  }
+}

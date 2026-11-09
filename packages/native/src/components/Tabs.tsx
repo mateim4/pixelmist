@@ -98,4 +98,21 @@ export const TabsTab = forwardRef<View, TabsTabProps>(function TabsTab({ value, 
   );
 });
 
-export const Tabs = Object.assign(TabsRoot, { List: TabsList, Tab: TabsTab });
+export interface TabsPanelProps extends ViewProps {
+  value: string;
+  children?: React.ReactNode;
+}
+
+/** Native tab panel: hidden when its tab is not selected. */
+export function TabsPanel({ value, children, style, ...rest }: TabsPanelProps) {
+  const ctx = useContext(TabsContext);
+  if (!ctx) throw new Error('Tabs.Panel must be used inside <Tabs>');
+  if (ctx.value !== value) return null;
+  return (
+    <View style={[{ paddingTop: 16 }, style]} {...rest}>
+      {children}
+    </View>
+  );
+}
+
+export const Tabs = Object.assign(TabsRoot, { List: TabsList, Tab: TabsTab, Panel: TabsPanel });

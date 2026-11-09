@@ -22,7 +22,7 @@ const cssVar = (p) =>
 /** number -> css unit, path-aware */
 function cssVal(path, v) {
   if (typeof v !== 'number') return v;
-  if (/(lineHeight|fontWeight|zIndex)/.test(path)) return String(v);
+  if (/(lineHeight|fontWeight|zIndex|travel)/.test(path)) return String(v);
   if (/duration/.test(path)) return `${v}ms`;
   return `${v}px`;
 }
@@ -100,11 +100,11 @@ for (const [p, v] of Object.entries(T.flatten({ components: T.componentTokens })
 }
 lines.push('}');
 
+// Reduced motion: fades (opacity/colour) stay; travel (transform distance) goes.
+// Components apply --pm-motion-travel as calc(var(--pm-motion-travel) * Npx).
 lines.push('\n@media (prefers-reduced-motion: reduce) {');
 lines.push('  :root {');
-lines.push('    --pm-motion-duration-fast: 1ms;');
-lines.push('    --pm-motion-duration-normal: 1ms;');
-lines.push('    --pm-motion-duration-slow: 1ms;');
+lines.push('    --pm-motion-travel: 0;');
 lines.push('  }');
 lines.push('}');
 
